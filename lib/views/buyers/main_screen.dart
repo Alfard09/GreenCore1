@@ -41,7 +41,6 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           child: BottomNavigationBar(
-
               //fixedColor: const Color.fromARGB(255, 63, 49, 8),
               type: BottomNavigationBarType.shifting,
               currentIndex: _pageIndex,

@@ -5,8 +5,8 @@ class CategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("Category"),
+    return Row(
+      children: [Text("data")],
     );
   }
 }
