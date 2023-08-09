@@ -8,19 +8,23 @@ class Welcome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Image.asset(
-          "assets/images/logo_1.png",
-          width: 100,
-        ),
-        Container(
-          child: SvgPicture.asset(
-            'assets/icons/cart.svg',
+    return Padding(
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).padding.top, left: 25, right: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Image.asset(
+            "assets/images/logo_1.png",
+            width: 100,
           ),
-        )
-      ],
+          Container(
+            child: SvgPicture.asset(
+              'assets/icons/cart.svg',
+            ),
+          )
+        ],
+      ),
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
+
 import 'package:flutter_svg/svg.dart';
 import 'package:greencore_1/views/buyers/nav_screens/account_screen.dart';
 import 'package:greencore_1/views/buyers/nav_screens/cart_screen.dart';
