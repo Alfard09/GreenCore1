@@ -45,7 +45,7 @@ class CategoryText extends StatelessWidget {
                           onPressed: () {},
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20)),
-                          backgroundColor: Colors.green[900],
+                          backgroundColor: Colors.green.shade800,
                           label: Text(
                             _categorylabel[index],
                             style: TextStyle(
