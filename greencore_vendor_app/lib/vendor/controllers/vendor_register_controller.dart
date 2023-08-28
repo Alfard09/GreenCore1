@@ -54,7 +54,7 @@ class VendorController {
     Uint8List? image,
   ) async {
     String res = 'some error occured';
-
+    print(res);
     try {
       String storeImage = await _uploadVendorImageToStorage(image);
       //Save data to Firestore

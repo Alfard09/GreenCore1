@@ -1,20 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:greencore_vendor_app/vendor/views/auth/auth_service.dart';
-import 'package:greencore_vendor_app/vendor/views/auth/vendor_registerpage(logreg).dart';
+import 'package:greencore_vendor_app/vendor/views/auth/vendor_login_screen.dart';
 
-class VendorLoginPage extends StatefulWidget {
+import 'auth_service.dart';
+
+class VendorRegisterPage extends StatefulWidget {
+  const VendorRegisterPage({super.key});
+
   @override
-  State<VendorLoginPage> createState() => _VendorLoginPageState();
+  State<VendorRegisterPage> createState() => _VendorRegisterPageState();
 }
 
-class _VendorLoginPageState extends State<VendorLoginPage> {
+class _VendorRegisterPageState extends State<VendorRegisterPage> {
   final emailcontroller = TextEditingController();
 
   final passwordcontroller = TextEditingController();
+  final confirmpasswordcontroller = TextEditingController();
 
   //sign vendor in method
-  void signUserIn() async {
+  void signUserUp() async {
     //show loading widget
     showDialog(
         context: context,
@@ -24,13 +28,20 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
           );
         });
 
-    //signin
+    //creating the user
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailcontroller.text,
-        password: passwordcontroller.text,
-      );
-      Navigator.pop(context);
+      if (passwordcontroller.text == confirmpasswordcontroller.text) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailcontroller.text,
+          password: passwordcontroller.text,
+        );
+
+        Navigator.pop(context);
+      } else {
+        //show error
+        Navigator.pop(context);
+        PasswordMessage();
+      }
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       //wrong email
@@ -38,9 +49,10 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
         print('No user found!!!');
         //show error to userr
         wrongEmailMessage();
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
       } else if (e.code == 'wrong-password') {
         print('Wrong password');
-
         //error message
         wrongPasswordMessage();
       }
@@ -63,7 +75,19 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
+            shape: Border.all(),
             title: Text('Incorrect password'),
+          );
+        });
+  }
+
+  void PasswordMessage() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            // shape: Border.all(),
+            title: Text('Password do not match!!'),
           );
         });
   }
@@ -79,7 +103,7 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Welcome back, you have been missed!!!',
+                  "Let's create an account!!!",
                   style: TextStyle(
                     color: Color.fromARGB(255, 8, 8, 8),
                     fontSize: 16,
@@ -90,7 +114,7 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
                   height: 25,
                 ),
 
-                //usrname
+                //usrname text field
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: TextField(
@@ -108,6 +132,7 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
                 SizedBox(
                   height: 10,
                 ),
+                // password textfield
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.0),
                   child: TextField(
@@ -123,27 +148,34 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
                             borderRadius: BorderRadius.circular(10))),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        'Forgot Password?',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ],
+                SizedBox(
+                  height: 10,
+                ),
+                //confirm password text filrd
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  child: TextField(
+                    controller: confirmpasswordcontroller,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                        hintText: 'Confirm Password',
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(10)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.purple),
+                            borderRadius: BorderRadius.circular(10))),
+                  ),
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                //button sigin
+                //button for sign up
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 35.0),
                   child: GestureDetector(
                     onTap: () {
-                      return signUserIn();
+                      return signUserUp();
                     },
                     child: Container(
                       padding: EdgeInsets.all(15),
@@ -152,7 +184,7 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
                           borderRadius: BorderRadius.circular(25)),
                       child: Center(
                         child: Text(
-                          "Sign In",
+                          "Sign Up",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -162,7 +194,6 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
                     ),
                   ),
                 ),
-
                 SizedBox(
                   height: 20,
                 ),
@@ -212,17 +243,17 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Not a Vendor? '),
+                      Text('Already a Vendor? '),
                       SizedBox(width: 4),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return VendorRegisterPage();
+                            return VendorLoginPage();
                           }));
                         },
                         child: Text(
-                          'Register Now',
+                          'Login Now',
                           style: TextStyle(color: Colors.blue),
                         ),
                       ),

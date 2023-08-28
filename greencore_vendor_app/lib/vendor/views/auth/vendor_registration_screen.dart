@@ -82,6 +82,16 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () async {
+                                await FirebaseAuth.instance.signOut();
+                              },
+                              icon: Icon(Icons.logout),
+                            ),
+                          ],
+                        ),
                         Container(
                           height: 100,
                           width: 100,
@@ -100,7 +110,7 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
                                   },
                                   icon: Icon(CupertinoIcons.photo),
                                 ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -248,9 +258,9 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
                         ),
                       ),
                     InkWell(
-                      onTap: () {
-                        _saveVendorDetails();
-                      },
+                      onTap: _saveVendorDetails, //() async {
+                      //    _saveVendorDetails();
+                      // },
                       child: Container(
                         height: 40,
                         width: MediaQuery.of(context).size.width - 40,

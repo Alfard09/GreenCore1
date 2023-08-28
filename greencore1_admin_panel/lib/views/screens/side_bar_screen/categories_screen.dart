@@ -35,6 +35,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   _uploadCategoryBannerToStorage(dynamic image) async {
+    //VAR uid=uuid()
     Reference ref = _storage.ref().child('CategoryImages').child(fileName!);
 
     UploadTask uploadTask = ref.putData(image);

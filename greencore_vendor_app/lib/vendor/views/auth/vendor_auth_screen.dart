@@ -17,7 +17,7 @@ class _VendorAuthScreenState extends State<VendorAuthScreen> {
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
-      initialData: FirebaseAuth.instance.currentUser,
+      // initialData: FirebaseAuth.instance.currentUser,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           // return SignInScreen(
@@ -31,20 +31,9 @@ class _VendorAuthScreenState extends State<VendorAuthScreen> {
           // );
 
           return VendorLoginPage();
+          // return VendorRegistrationScreen();
         }
-        //  return VendorRegistrationScreen();
-        // FloatingActionButton.extended(
-        //   onPressed: () {
-        //     AuthService().signInWithGoogle();
-        //   },
-        //   label: Text('Signin with Google'),
-        // );
-
-        return ElevatedButton(
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-            },
-            child: Text('Signout'));
+        return VendorRegistrationScreen();
       },
     );
   }
