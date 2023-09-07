@@ -1,7 +1,11 @@
+import 'dart:typed_data';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greencore_1/controllers/auth_controller.dart';
 import 'package:greencore_1/utils/show_snackBar.dart';
 import 'package:greencore_1/views/buyers/auth/login_screen.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -23,13 +27,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool _isLoading = false;
 
+  Uint8List? _image;
+
   _signUpUser() async {
     setState(() {
       _isLoading = true;
     });
     if (_formKey.currentState!.validate()) {
       await _authController
-          .signUpUsers(fullName, phoneNumber, email, password)
+          .signUpUsers(
+        fullName,
+        phoneNumber,
+        email,
+        password,
+        _image,
+      )
           .whenComplete(() {
         setState(() {
           _formKey.currentState!.reset();
@@ -46,6 +58,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
+  selectGalleryImage() async {
+    Uint8List im = await _authController.pickProfileImage(ImageSource.gallery);
+
+    setState(() {
+      _image = im;
+    });
+  }
+
+  selectCameraImage() async {
+    Uint8List im = await _authController.pickProfileImage(ImageSource.camera);
+
+    setState(() {
+      _image = im;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,9 +88,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   "Create Custmer's Account ",
                   style: TextStyle(fontSize: 20),
                 ),
-                CircleAvatar(
-                  radius: 60,
-                  backgroundColor: Colors.lightGreen,
+                Stack(
+                  children: [
+                    _image != null
+                        ? CircleAvatar(
+                            radius: 60,
+                            backgroundColor: Colors.lightGreen,
+                            backgroundImage: MemoryImage(_image!),
+                          )
+                        : CircleAvatar(
+                            radius: 64,
+                            backgroundColor: Colors.lightGreen,
+                            backgroundImage: NetworkImage(
+                                'https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg'),
+                          ),
+                    Positioned(
+                      right: 0,
+                      top: 5,
+                      child: IconButton(
+                        onPressed: () {
+                          selectGalleryImage();
+                        },
+                        icon: Icon(
+                          CupertinoIcons.photo,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.all(14.0),
@@ -85,6 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Padding(
                   padding: const EdgeInsets.all(14.0),
                   child: TextFormField(
+                    keyboardType: TextInputType.phone,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'please Phone Number must not be empty!';
@@ -128,6 +181,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'please Password must not be empty!';
+                      } else if (value.length < 6) {
+                        return 'please Enter a  password of atleast 6 character!!!';
                       } else {
                         return null;
                       }

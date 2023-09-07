@@ -49,7 +49,7 @@ class VendorController {
     String countryValue,
     String stateValue,
     String cityValue,
-    String taxRegistered,
+    //String taxRegistered,
     String taxNumber,
     Uint8List? image,
   ) async {
@@ -66,10 +66,11 @@ class VendorController {
         'countryValue': countryValue,
         'stateValue': stateValue,
         'cityValue': cityValue,
-        'taxRegistered': taxRegistered,
+        // 'taxRegistered': taxRegistered,
         'taxNumber': taxNumber,
         'storeImage': storeImage,
         'approved': false,
+        'vendorId': _auth.currentUser!.uid,
       });
     } catch (e) {
       res = e.toString();

@@ -2,6 +2,7 @@ import 'package:country_state_city_picker/country_state_city_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:greencore_vendor_app/vendor/controllers/vendor_register_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -22,7 +23,7 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
   late String cityValue;
 
   Uint8List? _image;
-  String? _taxStatus;
+  // String? _taxStatus;
   late String bussinessName;
   late String email;
   late String phoneNumber;
@@ -43,8 +44,10 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
   }
 
   _saveVendorDetails() async {
+    EasyLoading.show(status: 'Please Wait!!');
     if (_formKey.currentState!.validate()) {
-      await _vendorController.registerVendor(
+      await _vendorController
+          .registerVendor(
         false,
         bussinessName,
         email,
@@ -52,23 +55,30 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
         countryValue,
         stateValue,
         cityValue,
-        _taxStatus!,
         taxNumber,
         _image,
-      );
+      )
+          .whenComplete(() {
+        EasyLoading.dismiss();
+        setState(() {
+          _formKey.currentState!.reset();
+          _image = null;
+        });
+      });
     } else {
       print('Bad');
+      EasyLoading.dismiss();
     }
   }
 
-  List<String> _taxOptions = ['YES', 'NO'];
+  // List<String> _taxOptions = ['YES', 'NO'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            //backgroundColor: Colors.orange,
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
             toolbarHeight: 200,
             flexibleSpace: LayoutBuilder(builder: (context, constraints) {
               return FlexibleSpaceBar(
@@ -199,64 +209,88 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Tax Registered?',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          // SizedBox(
-                          //   width: 10,
-                          // ),
-                          Flexible(
-                            child: Container(
-                              width: 150,
-                              child: DropdownButtonFormField(
-                                hint: Text('Select...'),
-                                items: _taxOptions
-                                    .map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _taxStatus = value;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
+
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      onChanged: (value) {
+                        taxNumber = value;
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please Tax number must not be empty';
+                        } else {
+                          return null;
+                        }
+                      },
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: 'Tax Number',
                       ),
                     ),
-                    if (_taxStatus == 'YES')
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: TextFormField(
-                          onChanged: (value) {
-                            taxNumber = value;
-                          },
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please Tax number must not be empty';
-                            } else {
-                              return null;
-                            }
-                          },
-                          decoration: InputDecoration(
-                            labelText: 'Tax Number',
-                          ),
-                        ),
-                      ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    //tax thing
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       Text(
+                    //         'Tax Registered?',
+                    //         style: TextStyle(
+                    //           fontSize: 16,
+                    //           fontWeight: FontWeight.w500,
+                    //         ),
+                    //       ),
+                    //       // SizedBox(
+                    //       //   width: 10,
+                    //       // ),
+                    //       Flexible(
+                    //         child: Container(
+                    //           width: 150,
+                    //           child: DropdownButtonFormField(
+                    //             hint: Text('Select...'),
+                    //             items: _taxOptions
+                    //                 .map<DropdownMenuItem<String>>(
+                    //                     (String value) {
+                    //               return DropdownMenuItem<String>(
+                    //                 value: value,
+                    //                 child: Text(value),
+                    //               );
+                    //             }).toList(),
+                    //             onChanged: (value) {
+                    //               setState(() {
+                    //                 _taxStatus = value;
+                    //               });
+                    //             },
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // if (_taxStatus == 'YES')
+                    //   Padding(
+                    //     padding: const EdgeInsets.all(10.0),
+                    //     child: TextFormField(
+                    //       onChanged: (value) {
+                    //         taxNumber = value;
+                    //       },
+                    //       validator: (value) {
+                    //         if (value!.isEmpty) {
+                    //           return 'Please Tax number must not be empty';
+                    //         } else {
+                    //           return null;
+                    //         }
+                    //       },
+                    //       decoration: InputDecoration(
+                    //         labelText: 'Tax Number',
+                    //       ),
+                    //     ),
+                    //   ),
                     InkWell(
                       onTap: _saveVendorDetails, //() async {
                       //    _saveVendorDetails();

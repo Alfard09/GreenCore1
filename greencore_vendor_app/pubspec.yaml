@@ -43,6 +43,7 @@ dependencies:
   country_state_city_picker: ^1.2.8
   image_picker: ^1.0.2
   google_sign_in: ^6.1.4
+  flutter_easyloading: ^3.0.5
 
 dev_dependencies:
   flutter_test:

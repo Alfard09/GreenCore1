@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:greencore_vendor_app/vendor/views/auth/vendor_auth_screen.dart';
 
 void main() async {
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: VendorAuthScreen(),
+      builder: EasyLoading.init(),
     );
   }
 }

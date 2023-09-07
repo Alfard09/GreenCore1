@@ -25,22 +25,25 @@ class _LoginScreenState extends State<LoginScreen> {
       String res = await _authController.loginUsers(email, password);
 
       if (res == 'success') {
-        setState(() {
-          //_formKey.currentState!.reset();
-          _isLoading = false;
-        });
+        // setState(() {
+        //   //_formKey.currentState!.reset();
+        //   _isLoading = false;
+        // });
         return Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (BuildContext context) {
           return MainScreen();
         }));
       } else {
+        setState(() {
+          _isLoading = false;
+        });
         return showSnack(context, 'User Not Found!!!');
       }
 
       //return showSnack(context, 'Logged in successfully!!!!');
     } else {
       setState(() {
-        _isLoading = true;
+        _isLoading = false;
       });
       return showSnack(context, 'Please fields must not be empty');
     }
@@ -88,6 +91,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'please enter the password';
+                      } else if (value.length < 6) {
+                        return 'password length should not be less than 6!!';
                       } else {
                         return null;
                       }
@@ -119,15 +124,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.green[900],
                           borderRadius: BorderRadius.circular(15)),
                       child: Center(
-                        child: Text(
-                          'Login',
-                          style: TextStyle(
-                            letterSpacing: 2.5,
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        child: _isLoading
+                            ? CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : Text(
+                                'Login',
+                                style: TextStyle(
+                                  letterSpacing: 2.5,
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                       ),
                     ),
                   ),

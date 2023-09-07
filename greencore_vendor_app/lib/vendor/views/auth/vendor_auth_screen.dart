@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:greencore_vendor_app/vendor/views/auth/vendor_login_screen.dart';
+import 'package:greencore_vendor_app/vendor/views/screens/landing_screen.dart';
 import 'auth_service.dart';
 import 'package:greencore_vendor_app/vendor/views/auth/vendor_registration_screen.dart';
 
@@ -17,7 +18,7 @@ class _VendorAuthScreenState extends State<VendorAuthScreen> {
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
-      // initialData: FirebaseAuth.instance.currentUser,
+      initialData: FirebaseAuth.instance.currentUser,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           // return SignInScreen(
@@ -31,9 +32,10 @@ class _VendorAuthScreenState extends State<VendorAuthScreen> {
           // );
 
           return VendorLoginPage();
-          // return VendorRegistrationScreen();
         }
-        return VendorRegistrationScreen();
+        //return VendorRegistrationScreen();
+        return LandingScreen();
+        //return VendorLoginPage();
       },
     );
   }
