@@ -7,12 +7,12 @@ import 'package:greencore_1/utils/show_snackBar.dart';
 import 'package:greencore_1/views/buyers/auth/login_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
-class RegisterScreen extends StatefulWidget {
+class CustomerRegisterScreen extends StatefulWidget {
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<CustomerRegisterScreen> createState() => _CustomerRegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
   final AuthController _authController = AuthController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
