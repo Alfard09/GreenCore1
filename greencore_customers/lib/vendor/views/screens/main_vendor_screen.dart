@@ -38,7 +38,7 @@ class _MainVendorScreenState extends State<MainVendorScreen> {
 
         unselectedItemColor: Colors.black,
         // Color(0xff734b6d),
-        selectedItemColor: Color(0xff42275a),
+        selectedItemColor: Color(0xff734b6d),
         items: [
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.money_dollar),
