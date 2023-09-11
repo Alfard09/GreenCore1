@@ -45,6 +45,7 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
           .whenComplete(() {
         setState(() {
           _formKey.currentState!.reset();
+          _image = null;
           _isLoading = false;
         });
       });
