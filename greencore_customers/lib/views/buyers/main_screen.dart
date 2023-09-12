@@ -23,7 +23,7 @@ class _MainScreenState extends State<MainScreen> {
     CategoryScreen(),
     StoreScreen(),
     CartScreen(),
-    SearchScreen(),
+    //SearchScreen(),
     AccountScreen(),
   ];
   @override
@@ -77,13 +77,13 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   label: 'CART',
                 ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/icons/search.svg',
-                    width: 20,
-                  ),
-                  label: 'SEARCH',
-                ),
+                // BottomNavigationBarItem(
+                //   icon: SvgPicture.asset(
+                //     'assets/icons/search.svg',
+                //     width: 20,
+                //   ),
+                //   label: 'SEARCH',
+                // ),
                 BottomNavigationBarItem(
                   icon: SvgPicture.asset(
                     'assets/icons/account.svg',

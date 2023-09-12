@@ -10,7 +10,10 @@ class GeneralScreen extends StatefulWidget {
   State<GeneralScreen> createState() => _GeneralScreenState();
 }
 
-class _GeneralScreenState extends State<GeneralScreen> {
+class _GeneralScreenState extends State<GeneralScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final List<String> _categoryList = [];
 
@@ -45,6 +48,7 @@ class _GeneralScreenState extends State<GeneralScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final ProductProvider _productProvider =
         Provider.of<ProductProvider>(context);
     return Scaffold(
@@ -54,6 +58,13 @@ class _GeneralScreenState extends State<GeneralScreen> {
           child: Column(
             children: [
               TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter Product Name!!';
+                  } else {
+                    return null;
+                  }
+                },
                 onChanged: (value) {
                   _productProvider.getFormData(productName: value);
                 },
@@ -65,6 +76,14 @@ class _GeneralScreenState extends State<GeneralScreen> {
                 height: 20,
               ),
               TextFormField(
+                keyboardType: TextInputType.numberWithOptions(),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter Product Price!!';
+                  } else {
+                    return null;
+                  }
+                },
                 onChanged: (value) {
                   _productProvider.getFormData(
                       productPrice: double.parse(value));
@@ -77,6 +96,13 @@ class _GeneralScreenState extends State<GeneralScreen> {
                 height: 20,
               ),
               TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter Product Quantity!!';
+                  } else {
+                    return null;
+                  }
+                },
                 keyboardType: TextInputType.numberWithOptions(),
                 onChanged: (value) {
                   _productProvider.getFormData(quantity: int.parse(value));
@@ -102,6 +128,13 @@ class _GeneralScreenState extends State<GeneralScreen> {
                 height: 30,
               ),
               TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter Product Description!!';
+                  } else {
+                    return null;
+                  }
+                },
                 maxLines: 3,
                 maxLength: 1000,
                 onChanged: (value) {

@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:greencore_1/provider/product_provider.dart';
+import 'package:greencore_1/utils/show_snackBar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -14,14 +15,35 @@ class ImagesScreen extends StatefulWidget {
   State<ImagesScreen> createState() => _ImagesScreenState();
 }
 
-class _ImagesScreenState extends State<ImagesScreen> {
+class _ImagesScreenState extends State<ImagesScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   final ImagePicker picker = ImagePicker();
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
   List<File> _image = [];
+
   List<String> _imageUrlList = [];
 
+  bool get canAddMoreImages => _image.length < 5;
+  bool canAddImageCheck = true;
+
   chooseImage() async {
+    if (!canAddMoreImages) {
+      print("Image limit exceeded. Showing snackbar...");
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text(
+      //       'You can only add up to 5 images.',
+      //       style: TextStyle(color: Colors.white),
+      //     ),
+      //     backgroundColor: Colors.red,
+      //   ),
+      // );
+      return;
+    }
+
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (PickedFile == null) {
@@ -35,6 +57,7 @@ class _ImagesScreenState extends State<ImagesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final ProductProvider _productProvider =
         Provider.of<ProductProvider>(context);
     return SingleChildScrollView(
@@ -57,8 +80,24 @@ class _ImagesScreenState extends State<ImagesScreen> {
                         child: Center(
                           child: IconButton(
                             onPressed: () {
-                              chooseImage();
+                              canAddMoreImages ? chooseImage() : null;
+                              setState(() {
+                                if (canAddMoreImages == false) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'You can only add up to 5 images.',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                }
+                              });
                             },
+                            // onPressed:
+                            //     canAddMoreImages ? () => chooseImage() : null,
+
                             icon: Icon(Icons.add),
                           ),
                         ),
@@ -88,18 +127,17 @@ class _ImagesScreenState extends State<ImagesScreen> {
                     await ref.getDownloadURL().then((value) {
                       setState(() {
                         _imageUrlList.add(value);
-                        _productProvider.getFormData(
-                            imageUrlList: _imageUrlList);
                       });
                     });
                   });
                 }
                 setState(() {
-                  _image = [];
+                  // _image = [];
+                  _productProvider.getFormData(imageUrlList: _imageUrlList);
                   EasyLoading.dismiss();
                 });
               },
-              child: Text('Upload'),
+              child: _image.isNotEmpty ? Text('Upload') : Text(''),
             ),
           ],
         ),
