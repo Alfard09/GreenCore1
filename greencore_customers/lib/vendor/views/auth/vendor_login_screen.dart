@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:greencore_1/vendor/views/auth/vendor_registerpage(logreg).dart';
+import 'package:greencore_1/vendor/views/screens/landing_screen.dart';
 
 import 'auth_service.dart';
 
@@ -15,7 +16,7 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   //sign vendor in method
-  void signUserIn() async {
+  signUserIn() async {
     //show loading widget
     // showDialog(
     //     context: context,
@@ -35,10 +36,32 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
                 child: CircularProgressIndicator(),
               );
             });
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
+
+        // Check if sign-in was successful
+        if (userCredential.user != null) {
+          print('Sign-in successful');
+          // Sign-in was successful, navigate to the next page (HomeScreen)
+          return Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    LandingScreen()), // Replace with your desired next page widget
+          ).whenComplete(() {
+            _formKey.currentState!.reset();
+          });
+        } else {
+          // Handle the case where userCredential.user is null (sign-in failed)
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Sign-in failed. Please check your credentials.'),
+            ),
+          );
+        }
         //print(cred.credential);
         //await cred.user!.getIdToken();
 
@@ -193,7 +216,7 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 35.0),
                     child: GestureDetector(
                       onTap: () {
-                        return signUserIn();
+                        signUserIn();
                       },
                       child: Container(
                         padding: EdgeInsets.all(15),

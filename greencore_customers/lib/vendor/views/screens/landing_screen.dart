@@ -24,7 +24,7 @@ class LandingScreen extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return Center(child: Text("Loading"));
         }
         //checking whether the vendors already exist or it is a new vendor!!!!
         if (!snapshot.data!.exists) {
@@ -89,6 +89,7 @@ class LandingScreen extends StatelessWidget {
             TextButton(
               onPressed: () async {
                 await _auth.signOut();
+                Navigator.of(context).pop();
               },
               child: Text("Signout"),
             ),
