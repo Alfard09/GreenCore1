@@ -37,9 +37,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           colorScheme:
               ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 6, 153, 19)),
-          useMaterial3: true,
+          //useMaterial3: true,
           fontFamily: 'Pop-Regular'),
-      home: VendorLoginPage(),
+      home: MainScreen(),
       builder: EasyLoading.init(),
       // MainVendorScreen()
       // CustomerRegisterScreen()
