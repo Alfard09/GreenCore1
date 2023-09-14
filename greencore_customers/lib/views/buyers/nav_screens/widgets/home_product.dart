@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:greencore_1/views/buyers/productDetail/product_detail_screen.dart';
+import 'package:jumping_dot/jumping_dot.dart';
 
 class HomeproductWidget extends StatefulWidget {
   //const HomeproductWidget({super.key});
@@ -39,7 +40,10 @@ class _HomeproductWidgetState extends State<HomeproductWidget> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return JumpingDots(
+            color: Colors.green.shade600,
+            animationDuration: Duration(seconds: 5),
+          );
         }
 
         return Container(

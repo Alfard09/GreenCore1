@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:greencore_1/vendor/views/auth/vendor_registerpage(logreg).dart';
 import 'package:greencore_1/vendor/views/screens/landing_screen.dart';
 
+import '../../../views/buyers/auth/login_screen.dart';
 import 'auth_service.dart';
 
 class VendorLoginPage extends StatefulWidget {
@@ -121,6 +122,20 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Text("Are you a Customer? "),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return LoginScreen();
+                          }));
+                        },
+                        child: Text('Login'))
+                  ]),
+
+                  Divider(),
+
                   Text(
                     'Welcome back, you have been missed!!!',
                     style: TextStyle(

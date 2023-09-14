@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:greencore_1/provider/product_provider.dart';
 import 'package:greencore_1/vendor/views/auth/vendor_login_screen.dart';

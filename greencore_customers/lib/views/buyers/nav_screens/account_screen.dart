@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:greencore_1/views/buyers/auth/login_screen.dart';
 
 class AccountScreen extends StatelessWidget {
   // const AccountScreen({super.key});
@@ -124,6 +125,15 @@ class AccountScreen extends StatelessWidget {
                 ListTile(
                   onTap: () async {
                     _auth.signOut();
+                    //Navigator.of(context).pop();
+                    if (_auth.currentUser == null) {
+                      // Navigate to the specific page after sign-out
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => LoginScreen(),
+                        ),
+                      );
+                    }
                   },
                   leading: Icon(Icons.logout),
                   title: Text(

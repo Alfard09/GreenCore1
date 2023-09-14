@@ -4,6 +4,8 @@ import 'package:greencore_1/utils/show_snackBar.dart';
 import 'package:greencore_1/views/buyers/auth/register_screen.dart';
 import 'package:greencore_1/views/buyers/main_screen.dart';
 
+import '../../../vendor/views/auth/vendor_login_screen.dart';
+
 class LoginScreen extends StatefulWidget {
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -154,7 +156,20 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: Text('Register'))
                   ],
-                )
+                ),
+                Divider(),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Text("Are you a Vendor? "),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return VendorLoginPage();
+                      }));
+                    },
+                    child: Text('login'),
+                  )
+                ]),
               ],
             ),
           ),

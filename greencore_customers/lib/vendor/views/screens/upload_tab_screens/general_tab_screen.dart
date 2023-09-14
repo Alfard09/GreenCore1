@@ -136,7 +136,7 @@ class _GeneralScreenState extends State<GeneralScreen>
                   }
                 },
                 maxLines: 3,
-                maxLength: 1000,
+                maxLength: 20000,
                 onChanged: (value) {
                   _productProvider.getFormData(description: value);
                 },
