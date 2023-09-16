@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:greencore_1/provider/cart_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   // const ProductDetailScreen({super.key});
@@ -28,6 +30,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final CartProvider _cartProvider = Provider.of<CartProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white70,
@@ -242,34 +245,53 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ],
         ),
       ),
-      bottomSheet: Container(
-        height: 50,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(
-            top: BorderSide(width: 0.5, color: Colors.black45),
+      bottomSheet: InkWell(
+        onTap: () {
+          _cartProvider.addProductToCart(
+            widget.productData['productName'],
+            widget.productData['productId'],
+            widget.productData['imageUrlList'],
+            // widget.productData['quantity'],
+            1,
+            widget.productData['productPrice'],
+            widget.productData['vendorId'],
+            _selectedSize,
+            widget.productData['scheduleDate'],
+          );
+          setState(() {
+            _selectedSize = null; // Reset _selectedSize after adding to cart
+          });
+          print('Working');
+        },
+        child: Container(
+          height: 50,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(
+              top: BorderSide(width: 0.5, color: Colors.black45),
+            ),
           ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              CupertinoIcons.cart,
-              size: 22,
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Text(
-              'ADD TO CART',
-              style: TextStyle(
-                color: Colors.green.shade600,
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                CupertinoIcons.cart,
+                size: 22,
               ),
-            )
-          ],
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                'ADD TO CART',
+                style: TextStyle(
+                  color: Colors.green.shade600,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

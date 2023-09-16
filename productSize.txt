@@ -1,0 +1,85 @@
+If you're still experiencing issues with the selected size not resetting properly, here's an alternative solution that involves resetting the size when navigating to the cart screen.
+
+1. **Update Product Detail Screen:** Pass the selected size as an argument when navigating to the Cart screen.
+
+```dart
+bottomSheet: InkWell(
+  onTap: () {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => CartScreen(
+          selectedSize: _selectedSize, // Pass the selected size
+          productData: widget.productData,
+        ),
+      ),
+    );
+  },
+  // Existing code...
+),
+```
+
+2. **Modify Cart Screen:** Receive the selected size as an argument and use it to display the size in the Cart screen. If it's `null`, show an empty space.
+
+```dart
+class CartScreen extends StatelessWidget {
+  final String? selectedSize; // Receive the selected size as an argument
+  final dynamic productData;
+
+  CartScreen({Key? key, this.selectedSize, required this.productData})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final CartProvider _cartProvider = Provider.of<CartProvider>(context);
+    return Scaffold(
+      appBar: AppBar(
+        // Existing code...
+      ),
+      body: ListView.builder(
+        // Existing code...
+          itemBuilder: ((context, index) {
+            final cartData = _cartProvider.getCartItem.values.toList()[index];
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                child: Card(
+                  child: SizedBox(
+                    height: 150,
+                    child: Row(
+                      children: [
+                        // Existing code...
+
+                        // Display the selected size or empty space
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Existing code...
+
+                              (selectedSize != null)
+                                  ? OutlinedButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                        selectedSize,
+                                      ),
+                                    )
+                                  : SizedBox(width: 0),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          })),
+
+      // Existing code...
+    );
+  }
+}
+```
+
+This approach ensures that the selected size is passed explicitly when navigating to the Cart screen, allowing you to display it correctly. Make sure to adjust your navigation logic to suit your application structure.
