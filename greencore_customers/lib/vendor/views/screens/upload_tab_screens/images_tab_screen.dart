@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:greencore_1/provider/product_provider.dart';
 import 'package:greencore_1/utils/show_snackBar.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -49,9 +50,28 @@ class _ImagesScreenState extends State<ImagesScreen>
     if (PickedFile == null) {
       print('No image picked!!!');
     } else {
-      setState(() {
-        _image.add(File(pickedFile!.path));
-      });
+      final croppedImage = await ImageCropper().cropImage(
+        sourcePath: pickedFile!.path,
+        aspectRatio:
+            CropAspectRatio(ratioX: 1.0, ratioY: 1.0), // 1:1 aspect ratio
+        compressQuality: 100,
+        maxWidth: 800,
+        maxHeight: 800,
+        compressFormat: ImageCompressFormat.jpg,
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarColor: Colors.blue,
+            toolbarTitle: "Crop Image",
+            statusBarColor: Colors.blue,
+            backgroundColor: Colors.white,
+          )
+        ],
+      );
+      if (croppedImage != null) {
+        setState(() {
+          _image.add(File(croppedImage.path));
+        });
+      }
     }
   }
 

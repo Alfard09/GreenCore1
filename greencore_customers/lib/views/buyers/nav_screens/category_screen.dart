@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:greencore_1/views/buyers/inner_screens/all_product_screen.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 
 class CategoryScreen extends StatelessWidget {
@@ -15,7 +16,7 @@ class CategoryScreen extends StatelessWidget {
         iconTheme: IconThemeData(
           color: Colors.black,
         ),
-        elevation: 0,
+        elevation: 1,
         backgroundColor: Colors.white,
         title: Center(
           child: Text(
@@ -49,9 +50,30 @@ class CategoryScreen extends StatelessWidget {
                 itemBuilder: ((context, index) {
                   final categoryData = snapshot.data!.docs[index];
                   return Padding(
-                    padding: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.all(10),
                     child: ListTile(
-                      leading: Image.network(categoryData['image']),
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return AllProductScreen(
+                            categoryData: categoryData,
+                          );
+                        }));
+                      },
+                      contentPadding: EdgeInsets.all(10),
+                      titleAlignment: ListTileTitleAlignment.center,
+                      tileColor: Colors.grey.shade300,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                      leading: Container(
+                        height: double.infinity,
+                        child: Image.network(
+                          categoryData['image'],
+                          width: 50,
+                          height: 50,
+                        ),
+                      ),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

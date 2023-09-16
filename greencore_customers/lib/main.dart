@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
               ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 6, 153, 19)),
           //useMaterial3: true,
           fontFamily: 'Pop-Regular'),
-      home: MainScreen(),
+      home: MainVendorScreen(),
       builder: EasyLoading.init(),
       // MainVendorScreen()
       // CustomerRegisterScreen()
