@@ -9,11 +9,21 @@ class CartProvider with ChangeNotifier {
     return _cartItems;
   }
 
+  double get totalPrice {
+    var total = 0.0;
+
+    _cartItems.forEach((key, value) {
+      total += value.price * value.quantity;
+    });
+    return total;
+  }
+
   void addProductToCart(
     String productName,
     String productId,
     List imageUrl,
     int quantity,
+    int productQuantity,
     double price,
     String vendorId,
     String? productSize,
@@ -27,6 +37,7 @@ class CartProvider with ChangeNotifier {
                 productId: existingcart.productId,
                 imageUrl: existingcart.imageUrl,
                 quantity: existingcart.quantity + 1,
+                productQuantity: existingcart.productQuantity,
                 price: existingcart.price,
                 vendorId: existingcart.vendorId,
                 productSize: existingcart.productSize,
@@ -41,6 +52,7 @@ class CartProvider with ChangeNotifier {
                 productId: productId,
                 imageUrl: imageUrl,
                 quantity: quantity,
+                productQuantity: productQuantity,
                 price: price,
                 vendorId: vendorId,
                 scheduleDate: scheduleDate,
@@ -57,6 +69,16 @@ class CartProvider with ChangeNotifier {
 
   void decrement(CartAttr cartAttr) {
     cartAttr.decrease();
+    notifyListeners();
+  }
+
+  removeItem(productId) {
+    _cartItems.remove(productId);
+    notifyListeners();
+  }
+
+  removeAllItem() {
+    _cartItems.clear();
     notifyListeners();
   }
 }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greencore_1/provider/cart_provider.dart';
+import 'package:greencore_1/utils/show_snackBar.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -247,20 +248,45 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       ),
       bottomSheet: InkWell(
         onTap: () {
-          _cartProvider.addProductToCart(
-            widget.productData['productName'],
-            widget.productData['productId'],
-            widget.productData['imageUrlList'],
-            // widget.productData['quantity'],
-            1,
-            widget.productData['productPrice'],
-            widget.productData['vendorId'],
-            _selectedSize,
-            widget.productData['scheduleDate'],
-          );
-          setState(() {
-            _selectedSize = null; // Reset _selectedSize after adding to cart
-          });
+          if (widget.productData['sizeList'] != null) {
+            if (_selectedSize == null) {
+              showErrorSnack(context, 'Please select a Size');
+            } else {
+              _cartProvider.addProductToCart(
+                widget.productData['productName'],
+                widget.productData['productId'],
+                widget.productData['imageUrlList'],
+                // widget.productData['quantity'],
+                1,
+                widget.productData['quantity'],
+                widget.productData['productPrice'],
+                widget.productData['vendorId'],
+                _selectedSize,
+                widget.productData['scheduleDate'],
+              );
+              setState(() {
+                _selectedSize =
+                    null; // Reset _selectedSize after adding to cart
+              });
+            }
+          } else {
+            _cartProvider.addProductToCart(
+              widget.productData['productName'],
+              widget.productData['productId'],
+              widget.productData['imageUrlList'],
+              // widget.productData['quantity'],
+              1,
+              widget.productData['quantity'],
+              widget.productData['productPrice'],
+              widget.productData['vendorId'],
+              _selectedSize,
+              widget.productData['scheduleDate'],
+            );
+            setState(() {
+              _selectedSize = null; // Reset _selectedSize after adding to cart
+            });
+          }
+
           print('Working');
         },
         child: Container(

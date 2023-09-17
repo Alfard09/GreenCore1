@@ -13,3 +13,18 @@ showSnack(context, String title) {
     ),
   );
 }
+
+showErrorSnack(context, String mssg) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: Colors.red,
+      content: Text(
+        mssg,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
+    ),
+  );
+}

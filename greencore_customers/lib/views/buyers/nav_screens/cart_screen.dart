@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:greencore_1/provider/cart_provider.dart';
+import 'package:greencore_1/utils/float_notification.dart';
+import 'package:greencore_1/utils/show_snackBar.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
@@ -17,6 +20,17 @@ class CartScreen extends StatelessWidget {
           'Cart Screen',
           style: TextStyle(color: Colors.green.shade600),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              _cartProvider.removeAllItem();
+            },
+            icon: Icon(
+              CupertinoIcons.delete_solid,
+              color: Colors.red.shade900,
+            ),
+          ),
+        ],
       ),
       body: ListView.builder(
           shrinkWrap: true,
@@ -29,7 +43,7 @@ class CartScreen extends StatelessWidget {
                 child: Card(
                   elevation: 2,
                   child: SizedBox(
-                    height: 140,
+                    height: 150,
                     child: Center(
                       child: Row(
                         children: [
@@ -89,62 +103,94 @@ class CartScreen extends StatelessWidget {
                                 SizedBox(
                                   height: 5,
                                 ),
-                                Container(
-                                  height: 40,
-                                  width: 140,
-                                  decoration: BoxDecoration(
-                                    //  color: Colors.green.shade900,
-                                    borderRadius: BorderRadius.circular(3),
-                                    border: Border.all(
-                                      color: Colors.grey.shade500,
+                                Row(
+                                  children: [
+                                    Container(
+                                      height: 40,
+                                      width: 140,
+                                      decoration: BoxDecoration(
+                                        //  color: Colors.green.shade900,
+                                        borderRadius: BorderRadius.circular(3),
+                                        border: Border.all(
+                                          color: Colors.grey.shade500,
+                                        ),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Center(
+                                              child: IconButton(
+                                                onPressed: cartData.quantity ==
+                                                        1
+                                                    ? null
+                                                    : () {
+                                                        _cartProvider.decrement(
+                                                            cartData);
+                                                      },
+                                                icon: Icon(
+                                                  CupertinoIcons.minus,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          VerticalDivider(
+                                            thickness: 1,
+                                            color: Colors.grey.shade500,
+                                          ),
+                                          Expanded(
+                                            child: Center(
+                                              child: Text(
+                                                cartData.quantity.toString(),
+                                                style: TextStyle(
+                                                    color:
+                                                        Colors.green.shade800),
+                                              ),
+                                            ),
+                                          ),
+                                          VerticalDivider(
+                                            thickness: 1,
+                                            color: Colors.grey.shade500,
+                                          ),
+                                          Expanded(
+                                            child: Center(
+                                              child: IconButton(
+                                                onPressed: cartData
+                                                            .productQuantity ==
+                                                        cartData.quantity
+                                                    ? null
+                                                    : () {
+                                                        _cartProvider.increment(
+                                                            cartData);
+                                                      },
+                                                icon: Icon(
+                                                  CupertinoIcons.plus,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Center(
-                                          child: IconButton(
-                                            onPressed: () {
-                                              _cartProvider.decrement(cartData);
-                                            },
-                                            icon: Icon(
-                                              CupertinoIcons.minus,
-                                            ),
-                                          ),
-                                        ),
+                                    SizedBox(
+                                      width: 30,
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        _cartProvider
+                                            .removeItem(cartData.productId);
+                                      },
+                                      icon: Icon(
+                                        CupertinoIcons.delete_simple,
+                                        color: Colors.red,
                                       ),
-                                      VerticalDivider(
-                                        thickness: 1,
-                                        color: Colors.grey.shade500,
-                                      ),
-                                      Expanded(
-                                        child: Center(
-                                          child: Text(
-                                            cartData.quantity.toString(),
-                                            style: TextStyle(
-                                                color: Colors.green.shade800),
-                                          ),
-                                        ),
-                                      ),
-                                      VerticalDivider(
-                                        thickness: 1,
-                                        color: Colors.grey.shade500,
-                                      ),
-                                      Expanded(
-                                        child: Center(
-                                          child: IconButton(
-                                            onPressed: () {
-                                              _cartProvider.increment(cartData);
-                                            },
-                                            icon: Icon(
-                                              CupertinoIcons.plus,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
+                                // if (cartData.productQuantity != null &&
+                                //     cartData.productQuantity ==
+                                //         cartData.quantity)
+                                // showErrorSnack(
+                                //     context, 'Product Limit has been reached')
                               ],
                             ),
                           )
@@ -192,6 +238,31 @@ class CartScreen extends StatelessWidget {
       //     ],
       //   ),
       // ),
+
+      bottomSheet: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: 50,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.green.shade700,
+            borderRadius: BorderRadius.circular(3),
+          ),
+          child: Center(
+            child: Text(
+              "\$" +
+                  " " +
+                  _cartProvider.totalPrice.toStringAsFixed(2) +
+                  "  " +
+                  'CHECKOUT',
+              style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

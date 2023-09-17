@@ -64,7 +64,8 @@ class _HomeproductWidgetState extends State<HomeproductWidget> {
                 child: Container(
                   width: 170,
                   child: Card(
-                    elevation: 0.1,
+                    elevation: 1,
+                    shadowColor: Colors.green,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius
                           .zero, // Set border radius to zero for square corners.

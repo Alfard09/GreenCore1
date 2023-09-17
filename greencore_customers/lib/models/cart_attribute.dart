@@ -10,6 +10,8 @@ class CartAttr with ChangeNotifier {
 
   int quantity;
 
+  int productQuantity;
+
   final double price;
 
   final String vendorId;
@@ -23,6 +25,7 @@ class CartAttr with ChangeNotifier {
     required this.productId,
     required this.imageUrl,
     required this.quantity,
+    required this.productQuantity,
     required this.price,
     required this.vendorId,
     required this.productSize,
