@@ -264,6 +264,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 _selectedSize,
                 widget.productData['scheduleDate'],
               );
+              showSnack(context, 'Item added to cart');
               setState(() {
                 _selectedSize =
                     null; // Reset _selectedSize after adding to cart
@@ -282,6 +283,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               _selectedSize,
               widget.productData['scheduleDate'],
             );
+            showSnack(context, 'Item added to cart');
+
             setState(() {
               _selectedSize = null; // Reset _selectedSize after adding to cart
             });

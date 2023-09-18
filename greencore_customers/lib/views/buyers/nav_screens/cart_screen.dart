@@ -24,6 +24,7 @@ class CartScreen extends StatelessWidget {
           IconButton(
             onPressed: () {
               _cartProvider.removeAllItem();
+              //  showSnack(context, 'All Item removed from cart');
             },
             icon: Icon(
               CupertinoIcons.delete_solid,
@@ -157,13 +158,35 @@ class CartScreen extends StatelessWidget {
                                                 onPressed: cartData
                                                             .productQuantity ==
                                                         cartData.quantity
-                                                    ? null
+                                                    ?
+                                                    // null
+                                                    () {
+                                                        showErrorSnack(context,
+                                                            'Product quantity limit reached');
+                                                        // ScaffoldMessenger.of(
+                                                        //         context)
+                                                        //     .showSnackBar(
+                                                        //   SnackBar(
+                                                        //     content: Text(
+                                                        //         'Product quantity limit reached'),
+                                                        //     duration: Duration(
+                                                        //         seconds: 2),
+                                                        //   ),
+                                                        // );
+                                                      }
                                                     : () {
                                                         _cartProvider.increment(
                                                             cartData);
                                                       },
                                                 icon: Icon(
                                                   CupertinoIcons.plus,
+                                                  //Added code
+                                                  color: cartData
+                                                              .productQuantity ==
+                                                          cartData.quantity
+                                                      ? Colors
+                                                          .grey // Disable button color
+                                                      : Colors.black,
                                                 ),
                                               ),
                                             ),
@@ -178,6 +201,18 @@ class CartScreen extends StatelessWidget {
                                       onPressed: () {
                                         _cartProvider
                                             .removeItem(cartData.productId);
+
+                                        showErrorSnack(
+                                            context, 'Item removed from cart');
+
+                                        // ScaffoldMessenger.of(context)
+                                        //     .showSnackBar(
+                                        //   SnackBar(
+                                        //     content:
+                                        //         Text('Item removed from cart'),
+                                        //     duration: Duration(seconds: 2),
+                                        //   ),
+                                        // );
                                       },
                                       icon: Icon(
                                         CupertinoIcons.delete_simple,
@@ -189,8 +224,8 @@ class CartScreen extends StatelessWidget {
                                 // if (cartData.productQuantity != null &&
                                 //     cartData.productQuantity ==
                                 //         cartData.quantity)
-                                // showErrorSnack(
-                                //     context, 'Product Limit has been reached')
+                                //   showErrorSnack(context,
+                                //       'Product Limit has been reached'),
                               ],
                             ),
                           )

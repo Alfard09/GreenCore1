@@ -111,17 +111,17 @@ class CategoryWidget extends StatelessWidget {
   }
 
   // Function to handle deleting a category
-  // void deleteCategory(String categoryId) {
-  //   FirebaseFirestore.instance
-  //       .collection('categories')
-  //       .doc(categoryId)
-  //       .delete()
-  //       .then((value) {
-  //     print('Category deleted successfully.');
-  //   }).catchError((error) {
-  //     print('Failed to delete category: $error');
-  //   });
-  // }
+  void deleteCategory(String categoryId) {
+    FirebaseFirestore.instance
+        .collection('categories')
+        .doc(categoryId)
+        .delete()
+        .then((value) {
+      print('Category deleted successfully.');
+    }).catchError((error) {
+      print('Failed to delete category: $error');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -177,6 +177,7 @@ class CategoryWidget extends StatelessWidget {
                       onPressed: () {
                         // Add your delete functionality here
                         // deleteCategory(categoryData['categoryId']);
+                        deleteCategory(categoryData['categoryId']);
                         // You can use categoryData['categoryId'] to identify the category
                       },
                       child: Text('Delete'),
