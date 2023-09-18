@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:greencore_1/vendor/views/auth/vendor_login_screen.dart';
 
+import '../screens/landing_screen.dart';
 import 'auth_service.dart';
 
 class VendorRegisterPage extends StatefulWidget {
@@ -117,6 +118,19 @@ class _VendorRegisterPageState extends State<VendorRegisterPage> {
         content: Text('Password do not Match!!'),
       ),
     );
+  }
+
+  void signInWithGoogle() async {
+    try {
+      await AuthService().signInWithGoogle();
+      // Navigate to the next screen after successful Google sign-in.
+      print('successfull');
+      // Example:
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => LandingScreen()));
+    } catch (e) {
+      print('Error signing in with Google: $e');
+    }
   }
 
   @override
@@ -299,7 +313,7 @@ class _VendorRegisterPageState extends State<VendorRegisterPage> {
                     ),
                     backgroundColor: Colors.black,
                     onPressed: () {
-                      AuthService().signInWithGoogle();
+                      signInWithGoogle();
                     },
                     label: Text(
                       'Sign In with Google',

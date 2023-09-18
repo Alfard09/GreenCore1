@@ -11,7 +11,7 @@ class VendorLogoutScreen extends StatelessWidget {
       child: TextButton(
         onPressed: () async {
           await _auth.signOut();
-          Navigator.of(context).pop();
+          //Navigator.of(context).pop();
           if (_auth.currentUser == null) {
             // Navigate to the specific page after sign-out
             Navigator.of(context).pushReplacement(

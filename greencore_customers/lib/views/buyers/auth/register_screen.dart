@@ -34,28 +34,35 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
       _isLoading = true;
     });
     if (_formKey.currentState!.validate()) {
-      await _authController
-          .signUpUsers(
-        fullName,
-        phoneNumber,
-        email,
-        password,
-        _image,
-      )
-          .whenComplete(() {
+      if (_image == null) {
         setState(() {
-          _formKey.currentState!.reset();
-          _image = null;
           _isLoading = false;
         });
-      });
-      return showSnack(context, 'Account has been created!!!');
+        showErrorSnack(context, 'Please select an image');
+      } else {
+        await _authController
+            .signUpUsers(
+          fullName,
+          phoneNumber,
+          email,
+          password,
+          _image,
+        )
+            .whenComplete(() {
+          setState(() {
+            _formKey.currentState!.reset();
+            _image = null;
+            _isLoading = false;
+          });
+        });
+        return showSnack(context, 'Account has been created!!!');
+      }
     } else {
       setState(() {
         _isLoading = false;
       });
       print('Error!!!!');
-      return showSnack(context, 'Please fields must not be empty');
+      return showErrorSnack(context, 'Please fields must not be empty');
     }
   }
 
@@ -142,6 +149,8 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'please Phone Number must not be empty!';
+                      } else if (value.length != 10) {
+                        return 'please enter 10 digit phone number';
                       } else {
                         return null;
                       }

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:greencore_1/vendor/views/auth/vendor_registerpage(logreg).dart';
 import 'package:greencore_1/vendor/views/screens/landing_screen.dart';
+import 'package:greencore_1/vendor/views/screens/main_vendor_screen.dart';
 
 import '../../../views/buyers/auth/login_screen.dart';
 import 'auth_service.dart';
@@ -82,6 +83,19 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
           wrongPasswordMessage();
         }
       }
+    }
+  }
+
+  void signInWithGoogle() async {
+    try {
+      await AuthService().signInWithGoogle();
+      // Navigate to the next screen after successful Google sign-in.
+      print('successfull');
+      // Example:
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => LandingScreen()));
+    } catch (e) {
+      print('Error signing in with Google: $e');
     }
   }
 
@@ -211,18 +225,18 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
                               borderRadius: BorderRadius.circular(10))),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          'Forgot Password?',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.end,
+                  //   children: [
+                  //     Padding(
+                  //       padding: const EdgeInsets.all(10.0),
+                  //       child: Text(
+                  //         'Forgot Password?',
+                  //         style: TextStyle(color: Colors.black),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   SizedBox(
                     height: 10,
                   ),
@@ -284,7 +298,7 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
                     ),
                     backgroundColor: Colors.black,
                     onPressed: () {
-                      AuthService().signInWithGoogle();
+                      signInWithGoogle();
                     },
                     label: Text(
                       'Sign In with Google',

@@ -84,13 +84,13 @@ class _CategoryTextState extends State<CategoryText> {
                             }),
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.arrow_forward_ios),
-                          iconSize: 15,
+                        // IconButton(
+                        //   onPressed: () {},
+                        //   icon: Icon(Icons.arrow_forward_ios),
+                        //   iconSize: 15,
 
-                          // highlightColor: Colors.transparent,
-                        )
+                        //   // highlightColor: Colors.transparent,
+                        // )
                       ],
                     ),
                   ),

@@ -47,7 +47,7 @@ class VendorScreen extends StatelessWidget {
           Row(
             children: [
               _rowHeader('LOGO', 1),
-              _rowHeader('BUSSINESS NAME', 2),
+              _rowHeader('BUSINESS NAME', 2),
               _rowHeader('CITY', 2),
               _rowHeader('STATE', 2),
               _rowHeader('ACTION', 1),

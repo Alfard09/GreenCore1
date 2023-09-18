@@ -124,7 +124,7 @@ class AccountScreen extends StatelessWidget {
                 ),
                 ListTile(
                   onTap: () async {
-                    _auth.signOut();
+                    await _auth.signOut();
                     //Navigator.of(context).pop();
                     if (_auth.currentUser == null) {
                       // Navigate to the specific page after sign-out

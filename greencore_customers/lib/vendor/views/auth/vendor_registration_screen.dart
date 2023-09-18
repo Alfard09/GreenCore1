@@ -3,10 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:greencore_1/vendor/views/auth/vendor_login_screen.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../../utils/show_snackBar.dart';
 import '../../controllers/vendor_register_controller.dart';
 
 class VendorRegistrationScreen extends StatefulWidget {
@@ -48,6 +50,12 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
   _saveVendorDetails() async {
     EasyLoading.show(status: 'Please Wait!!');
     if (_formKey.currentState!.validate()) {
+      if (_image == null) {
+        EasyLoading.dismiss();
+        showErrorSnack(context, 'Please select an image');
+        return;
+      }
+
       await _vendorController
           .registerVendor(
         false,
@@ -73,6 +81,21 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
     }
   }
 
+  Future<void> _handleLogout() async {
+    // Check if the user is authenticated before attempting to sign out
+    if (FirebaseAuth.instance.currentUser != null) {
+      await FirebaseAuth.instance.signOut();
+      // Navigate to the VendorLoginPage after successful logout
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => VendorLoginPage(),
+        ),
+      );
+    } else {
+      print('User is not authenticated.');
+    }
+  }
+
   // List<String> _taxOptions = ['YES', 'NO'];
   @override
   Widget build(BuildContext context) {
@@ -82,6 +105,7 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
           SliverAppBar(
             backgroundColor: Color.fromARGB(255, 255, 255, 255),
             toolbarHeight: 200,
+            automaticallyImplyLeading: false,
             flexibleSpace: LayoutBuilder(builder: (context, constraints) {
               return FlexibleSpaceBar(
                 background: Container(
@@ -97,8 +121,9 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
                         Row(
                           children: [
                             IconButton(
-                              onPressed: () async {
-                                await FirebaseAuth.instance.signOut();
+                              onPressed: () {
+                                _handleLogout();
+                                // await FirebaseAuth.instance.signOut();
                               },
                               icon: Icon(Icons.logout),
                             ),
@@ -163,6 +188,8 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please Email must not be empty';
+                        } else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+                          return "Please Enter a Valid Email";
                         } else {
                           return null;
                         }
@@ -182,6 +209,8 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please Phone number must not be empty';
+                        } else if (value.length != 10) {
+                          return 'please enter 10 digit phone number';
                         } else {
                           return null;
                         }
@@ -222,6 +251,8 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please Tax number must not be empty';
+                        } else if (value.length < 10 || value.length > 15) {
+                          return 'Please enter a tax number between 10 and 15 digits';
                         } else {
                           return null;
                         }
