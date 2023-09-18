@@ -60,7 +60,7 @@ class CategoryWidget extends StatelessWidget {
   //const CategoryWidget({Key? key});
 
   // Function to handle editing a category
-  void editCategory(BuildContext context, String categoryId) {
+  void editCategory(BuildContext context, DocumentSnapshot categoryData) {
     String newName = ''; // This will hold the updated category name
 
     showDialog(
@@ -77,11 +77,26 @@ class CategoryWidget extends StatelessWidget {
           actions: <Widget>[
             ElevatedButton(
               onPressed: () {
+                String categoryId = categoryData.id; // Get the category ID
                 // Update the category name in Firestore
                 FirebaseFirestore.instance
                     .collection('categories')
                     .doc(categoryId)
                     .update({'categoryName': newName}).then((value) {
+                  // Update related products in the product collection
+                  FirebaseFirestore.instance
+                      .collection('products')
+                      .where('category',
+                          isEqualTo: categoryData['categoryName'])
+                      .get()
+                      .then((QuerySnapshot querySnapshot) {
+                    querySnapshot.docs.forEach((doc) {
+                      FirebaseFirestore.instance
+                          .collection('products')
+                          .doc(doc.id)
+                          .update({'category': newName});
+                    });
+                  });
                   Navigator.pop(context); // Close the dialog
                 }).catchError((error) {
                   print('Failed to update category: $error');
@@ -152,7 +167,8 @@ class CategoryWidget extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Call the editCategory function to edit the category
-                        editCategory(context, categoryData['categoryId']);
+                        // editCategory(context, categoryData['categoryId']);
+                        editCategory(context, snapshot.data!.docs[index]);
                       },
                       child: Text('Edit'),
                     ),
