@@ -55,6 +55,7 @@ dependencies:
   jumping_dot: ^0.0.6
   image_cropper: ^5.0.0
   fluttertoast: ^8.0.8
+  shared_preferences: ^2.2.1
 
 
 dev_dependencies:

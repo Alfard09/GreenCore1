@@ -3,11 +3,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greencore_1/views/buyers/auth/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountScreen extends StatelessWidget {
   // const AccountScreen({super.key});
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  Future<void> _logout(BuildContext context) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
+
+      await _auth.signOut();
+      print('working');
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => LoginScreen(),
+        ),
+      );
+    } catch (e) {
+      print("Logout failed: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,18 +140,38 @@ class AccountScreen extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  onTap: () async {
-                    await _auth.signOut();
-                    //Navigator.of(context).pop();
-                    if (_auth.currentUser == null) {
-                      // Navigate to the specific page after sign-out
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => LoginScreen(),
-                        ),
-                      );
-                    }
-                  },
+                  onTap: () => _logout(context),
+                  // onTap: () async {
+                  //   // await _auth.signOut();
+                  //   // //Navigator.of(context).pop();
+                  //   // if (_auth.currentUser == null) {
+                  //   //   // Navigate to the specific page after sign-out
+                  //   //   Navigator.of(context).pushReplacement(
+                  //   //     MaterialPageRoute(
+                  //   //       builder: (context) => LoginScreen(),
+                  //   //     ),
+                  //   //   );
+                  //   // }
+
+                  //   print("Logout tapped"); // Check if this message is printed
+
+                  //   try {
+                  //     await _auth.signOut();
+                  //     print('working');
+
+                  //     // Navigate to the login screen only if the user is successfully signed out
+                  //     if (_auth.currentUser == null) {
+                  //       Navigator.of(context).pushReplacement(
+                  //         MaterialPageRoute(
+                  //           builder: (context) => LoginScreen(),
+                  //         ),
+                  //       );
+                  //     }
+                  //   } catch (e) {
+                  //     print("Logout failed: $e");
+                  //     // Handle logout failure if needed
+                  //   }
+                  // },
                   leading: Icon(Icons.logout),
                   title: Text(
                     'Logout',

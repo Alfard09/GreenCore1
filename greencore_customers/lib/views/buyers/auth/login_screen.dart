@@ -3,6 +3,7 @@ import 'package:greencore_1/controllers/auth_controller.dart';
 import 'package:greencore_1/utils/show_snackBar.dart';
 import 'package:greencore_1/views/buyers/auth/register_screen.dart';
 import 'package:greencore_1/views/buyers/main_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../vendor/views/auth/vendor_login_screen.dart';
 
@@ -19,6 +20,24 @@ class _LoginScreenState extends State<LoginScreen> {
   late String password;
   bool _isLoading = false;
 
+//added login persistent status
+  @override
+  void initState() {
+    super.initState();
+    // Check if already logged in
+    checkLoginStatus();
+  }
+
+  Future<void> checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = prefs.getBool('isCustomerLoggedIn') ?? false;
+    if (isLoggedIn) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => MainScreen()));
+    }
+  }
+  //changes......
+
   _loginUsers() async {
     setState(() {
       _isLoading = true;
@@ -31,6 +50,10 @@ class _LoginScreenState extends State<LoginScreen> {
         //   //_formKey.currentState!.reset();
         //   _isLoading = false;
         // });
+        //
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isCustomerLoggedIn', true);
+        //
         return Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (BuildContext context) {
           return MainScreen();

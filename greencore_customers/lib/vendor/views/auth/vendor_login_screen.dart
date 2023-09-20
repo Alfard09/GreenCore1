@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:greencore_1/vendor/views/auth/vendor_registerpage(logreg).dart';
 import 'package:greencore_1/vendor/views/screens/landing_screen.dart';
 import 'package:greencore_1/vendor/views/screens/main_vendor_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../views/buyers/auth/login_screen.dart';
 import 'auth_service.dart';
@@ -17,6 +18,24 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
   late String password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+//startsS
+  @override
+  void initState() {
+    super.initState();
+    // Check if already logged in
+    checkLoginStatus();
+  }
+
+  Future<void> checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = prefs.getBool('isVendorLoggedIn') ?? false;
+    if (isLoggedIn) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => MainVendorScreen()));
+    }
+  }
+
+//...eends
   //sign vendor in method
   signUserIn() async {
     //show loading widget
@@ -47,6 +66,10 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
         // Check if sign-in was successful
         if (userCredential.user != null) {
           print('Sign-in successful');
+          //
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setBool('isVendorLoggedIn', true);
+          //
           // Sign-in was successful, navigate to the next page (HomeScreen)
           return Navigator.pushReplacement(
             context,
