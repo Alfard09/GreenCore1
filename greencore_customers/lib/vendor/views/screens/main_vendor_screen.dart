@@ -23,46 +23,53 @@ class _MainVendorScreenState extends State<MainVendorScreen> {
     VendorOrderScreen(),
     VendorLogoutScreen(),
   ];
+  Future<bool> _onWillPop() async {
+    // Always return false to prevent the app from exiting
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _pageIndex,
-        onTap: (value) {
-          setState(() {
-            _pageIndex = value;
-          });
-        },
-        type: BottomNavigationBarType.fixed,
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _pageIndex,
+          onTap: (value) {
+            setState(() {
+              _pageIndex = value;
+            });
+          },
+          type: BottomNavigationBarType.fixed,
 
-        unselectedItemColor: Colors.black,
-        // Color(0xff734b6d),
-        selectedItemColor: Color(0xff734b6d),
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.money_dollar),
-            label: 'EARNINGS',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.upload),
-            label: 'UPLOAD',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.edit),
-            label: 'EDIT',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.shopping_cart),
-            label: 'ORDERS',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
-            label: 'LOGOUT',
-          ),
-        ],
+          unselectedItemColor: Colors.black,
+          // Color(0xff734b6d),
+          selectedItemColor: Color(0xff734b6d),
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.money_dollar),
+              label: 'EARNINGS',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.upload),
+              label: 'UPLOAD',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.edit),
+              label: 'EDIT',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.shopping_cart),
+              label: 'ORDERS',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.logout),
+              label: 'LOGOUT',
+            ),
+          ],
+        ),
+        body: _pages[_pageIndex],
       ),
-      body: _pages[_pageIndex],
     );
   }
 }

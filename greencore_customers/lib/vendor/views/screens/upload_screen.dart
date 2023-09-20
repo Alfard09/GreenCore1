@@ -66,7 +66,8 @@ class UploadScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(6.0),
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 199, 199, 198)),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     EasyLoading.show();

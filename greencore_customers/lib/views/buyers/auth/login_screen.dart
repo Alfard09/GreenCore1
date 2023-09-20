@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           _isLoading = false;
         });
-        return showSnack(context, 'User Not Found!!!');
+        return showErrorSnack(context, 'User Not Found!!!');
       }
 
       //return showSnack(context, 'Logged in successfully!!!!');
@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         _isLoading = false;
       });
-      return showSnack(context, 'Please fields must not be empty');
+      return showErrorSnack(context, 'Please fields must not be empty');
     }
   }
 
@@ -118,6 +118,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: InkWell(
                     onTap: () {
                       _loginUsers();
+                      // Navigator.push(context,
+                      //   MaterialPageRoute(builder: (context) {
+                      //return MainScreen();
+                      // }));
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width - 40,

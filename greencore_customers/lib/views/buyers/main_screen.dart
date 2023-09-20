@@ -26,75 +26,83 @@ class _MainScreenState extends State<MainScreen> {
     //SearchScreen(),
     AccountScreen(),
   ];
+  Future<bool> _onWillPop() async {
+    // Always return false to prevent the app from exiting
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: Container(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Color.fromARGB(255, 223, 0, 0),
-            border: Border(
-              top: BorderSide(
-                color: const Color.fromARGB(255, 201, 201, 201),
-                width: 1.0,
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        bottomNavigationBar: Container(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 223, 0, 0),
+              border: Border(
+                top: BorderSide(
+                  color: const Color.fromARGB(255, 201, 201, 201),
+                  width: 1.0,
+                ),
               ),
             ),
+            child: BottomNavigationBar(
+                //fixedColor: const Color.fromARGB(255, 63, 49, 8),
+                type: BottomNavigationBarType.shifting,
+                currentIndex: _pageIndex,
+                onTap: (value) {
+                  setState(() {
+                    _pageIndex = value;
+                  });
+                },
+                unselectedItemColor: Colors.black87,
+                selectedItemColor: Colors.green[900],
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'HOME',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/icons/explore.svg',
+                      width: 20,
+                    ),
+                    label: 'CATEGORY',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/icons/shop.svg',
+                      width: 20,
+                    ),
+                    label: 'STORE',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/icons/cart.svg',
+                      width: 20,
+                    ),
+                    label: 'CART',
+                  ),
+                  // BottomNavigationBarItem(
+                  //   icon: SvgPicture.asset(
+                  //     'assets/icons/search.svg',
+                  //     width: 20,
+                  //   ),
+                  //   label: 'SEARCH',
+                  // ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/icons/account.svg',
+                      width: 20,
+                    ),
+                    label: 'ACCOUNT',
+                  ),
+                ]),
           ),
-          child: BottomNavigationBar(
-              //fixedColor: const Color.fromARGB(255, 63, 49, 8),
-              type: BottomNavigationBarType.shifting,
-              currentIndex: _pageIndex,
-              onTap: (value) {
-                setState(() {
-                  _pageIndex = value;
-                });
-              },
-              unselectedItemColor: Colors.black87,
-              selectedItemColor: Colors.green[900],
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'HOME',
-                ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/icons/explore.svg',
-                    width: 20,
-                  ),
-                  label: 'CATEGORY',
-                ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/icons/shop.svg',
-                    width: 20,
-                  ),
-                  label: 'STORE',
-                ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/icons/cart.svg',
-                    width: 20,
-                  ),
-                  label: 'CART',
-                ),
-                // BottomNavigationBarItem(
-                //   icon: SvgPicture.asset(
-                //     'assets/icons/search.svg',
-                //     width: 20,
-                //   ),
-                //   label: 'SEARCH',
-                // ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/icons/account.svg',
-                    width: 20,
-                  ),
-                  label: 'ACCOUNT',
-                ),
-              ]),
         ),
+        body: _page[_pageIndex],
       ),
-      body: _page[_pageIndex],
     );
   }
 }
