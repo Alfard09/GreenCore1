@@ -53,7 +53,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          //mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
@@ -242,7 +242,373 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 textAlign: TextAlign.justify,
               ),
             ),
-            SizedBox(height: 60),
+            Divider(),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Center(
+                          child: Text(
+                            'Plant Care Tips',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 18, // Adjust font size
+                              color: Colors.green, // Adjust text color
+                            ),
+                          ),
+                        ),
+                        contentPadding:
+                            EdgeInsets.all(10.0), // Adjust padding as needed
+                        content: Container(
+                          width: double.infinity,
+                          // width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.6,
+                          child: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text('Tip 1: Water the plant regularly.'),
+                                Text('Tip 2: Provide adequate sunlight.'),
+                                Text('Tip 3: Use appropriate fertilizer.')
+                                // Add more tips or content as needed
+                              ],
+                            ),
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'Close',
+                              style: TextStyle(
+                                color: Colors.green, // Adjust text color
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      Colors.white, // Background color of the button
+                  //: Colors.green, // Color of the text when pressed
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(5.0), // Adjust border radius
+                  ),
+                ),
+                child: Text(
+                  'Plant Care Tips',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green, // Text color
+                  ),
+                ),
+              ),
+            ),
+            Divider(),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.speaker_notes_outlined,
+                    color: Colors.green.shade600,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    'Plant Specifications',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+
+            //table
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(3),
+                  border: Border.all(color: Colors.green.shade300),
+                ),
+                child: DataTable(
+                  dataRowHeight: 40,
+                  headingRowHeight: 0,
+                  horizontalMargin: 5,
+                  border: TableBorder.all(
+                      borderRadius: BorderRadius.circular(3),
+                      color: Colors.green.shade200),
+                  columns: [
+                    DataColumn(label: Text('')),
+                    DataColumn(label: Text(''))
+                  ],
+                  rows: [
+                    DataRow(cells: [
+                      DataCell(Text(
+                        'Plant Spread',
+                        style: TextStyle(fontWeight: FontWeight.w500),
+                      )),
+                      DataCell(
+                        Text(
+                          widget.productData['plantSpread'],
+                        ),
+                      ),
+                    ]),
+                    DataRow(
+                      cells: [
+                        DataCell(Text(
+                          'Plant Height',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        )),
+                        DataCell(
+                          Text(
+                            widget.productData['plantHeight'],
+                          ),
+                        ),
+                      ],
+                    ),
+                    DataRow(
+                      cells: [
+                        DataCell(Text(
+                          'Common Name',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        )),
+                        DataCell(
+                          Text(
+                            widget.productData['commonName'],
+                          ),
+                        ),
+                      ],
+                    ),
+                    DataRow(
+                      cells: [
+                        DataCell(Text(
+                          'Max Height',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        )),
+                        DataCell(
+                          Text(
+                            widget.productData['maxHeight'],
+                          ),
+                        ),
+                      ],
+                    ),
+                    DataRow(
+                      cells: [
+                        DataCell(Text(
+                          'Flower Color',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        )),
+                        DataCell(
+                          Text(
+                            widget.productData['flowerColor'],
+                          ),
+                        ),
+                      ],
+                    ),
+                    DataRow(
+                      cells: [
+                        DataCell(Text(
+                          'Bloom Time',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        )),
+                        DataCell(
+                          Text(
+                            widget.productData['bloomTime'],
+                          ),
+                        ),
+                      ],
+                    ),
+                    DataRow(
+                      cells: [
+                        DataCell(Text(
+                          'Difficulty Level',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        )),
+                        DataCell(
+                          Text(
+                            widget.productData['diffLevel'],
+                          ),
+                        ),
+                      ],
+                    ),
+                    DataRow(
+                      cells: [
+                        DataCell(Text(
+                          'Scientific Name',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        )),
+                        DataCell(
+                          Text(
+                            widget.productData['scientificName'],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Divider(),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.import_export_rounded,
+                    color: Colors.green.shade600,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    'Special Features',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                widget.productData['specialFeatures'],
+                style: TextStyle(
+                  fontWeight: FontWeight.w200,
+                  fontSize: 16,
+                  color: Color.fromARGB(164, 10, 10, 10),
+                ),
+                textAlign: TextAlign.justify,
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.eco_rounded,
+                    color: Colors.green.shade600,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    'uses',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                widget.productData['uses'],
+                style: TextStyle(
+                  fontWeight: FontWeight.w200,
+                  fontSize: 16,
+                  color: Color.fromARGB(164, 10, 10, 10),
+                ),
+                textAlign: TextAlign.justify,
+              ),
+            ),
+
+            // ExpansionTile(
+            //   tilePadding: EdgeInsets.only(left: 10, right: 10),
+            //   //expandedCrossAxisAlignment: CrossAxisAlignment.start,
+            //   expandedAlignment: Alignment.topLeft,
+            //   leading: Icon(
+            //     Icons.library_books_sharp,
+            //     color: Colors.green.shade600,
+            //   ),
+            //   title: Container(
+            //     padding: EdgeInsets.all(0),
+            //     child: Text(
+            //       'Plant Specifications',
+            //       style: TextStyle(
+            //         fontWeight: FontWeight.w500,
+            //         fontSize: 16,
+            //       ),
+            //       textAlign: TextAlign.left,
+            //     ),
+            //   ),
+            //   children: [
+            //     Padding(
+            //       padding: const EdgeInsets.all(12.0),
+            //       child: Container(
+            //         decoration: BoxDecoration(
+            //           borderRadius: BorderRadius.circular(3),
+            //           border: Border.all(),
+            //         ),
+            //         child: DataTable(
+            //           dataRowHeight: 30,
+            //           headingRowHeight: 0,
+            //           horizontalMargin: 5,
+            //           border: TableBorder.all(
+            //               borderRadius: BorderRadius.circular(3)),
+            //           columns: [
+            //             DataColumn(label: Text('')),
+            //             DataColumn(label: Text(''))
+            //           ],
+            //           rows: [
+            //             DataRow(cells: [
+            //               DataCell(Text(
+            //                 'Plant Spread',
+            //                 style: TextStyle(fontWeight: FontWeight.w500),
+            //               )),
+            //               DataCell(
+            //                 Text(
+            //                   widget.productData['plantSpread'],
+            //                 ),
+            //               ),
+            //             ]),
+            //             DataRow(cells: [
+            //               DataCell(Text(
+            //                 'Plant Height',
+            //                 style: TextStyle(fontWeight: FontWeight.w500),
+            //               )),
+            //               DataCell(
+            //                 Text(
+            //                   widget.productData['plantHeight'],
+            //                 ),
+            //               ),
+            //             ]),
+            //           ],
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            SizedBox(
+              height: 60,
+            ),
           ],
         ),
       ),

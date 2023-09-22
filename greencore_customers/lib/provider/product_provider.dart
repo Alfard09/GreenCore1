@@ -15,6 +15,25 @@ class ProductProvider with ChangeNotifier {
     int? shippingCharge,
     String? brandName,
     List<String>? sizeList,
+    //dicount
+    bool? discount,
+    int? discountPrice,
+    //specifications
+    bool? isPlantSpecification,
+    String? plantHeight,
+    String? plantSpread,
+    String? commonName,
+    String? maxHeight,
+    String? flowerColor,
+    String? bloomTime,
+    String? diffLevel,
+    String? scientificName,
+    //special features
+    String? specialFeatures,
+    String? uses,
+    //plantcaretip
+    bool? isCareTip,
+    String? plantCaretip,
   }) {
     if (productName != null) {
       productData['productName'] = productName;
@@ -52,6 +71,53 @@ class ProductProvider with ChangeNotifier {
     if (sizeList != null) {
       productData['sizeList'] = sizeList;
     }
+    if (discount != null) {
+      productData['discount'] = discount;
+    }
+    if (discountPrice != null) {
+      productData['discountPrice'] = discountPrice;
+    }
+    //specifications
+    if (isPlantSpecification != null) {
+      productData['isPlantSpecification'] = isPlantSpecification;
+    }
+    if (plantHeight != null) {
+      productData['plantHeight'] = plantHeight;
+    }
+    if (plantSpread != null) {
+      productData['plantSpread'] = plantSpread;
+    }
+    if (commonName != null) {
+      productData['commonName'] = commonName;
+    }
+    if (maxHeight != null) {
+      productData['maxHeight'] = maxHeight;
+    }
+    if (flowerColor != null) {
+      productData['flowerColor'] = flowerColor;
+    }
+    if (bloomTime != null) {
+      productData['bloomTime'] = bloomTime;
+    }
+    if (diffLevel != null) {
+      productData['diffLevel'] = diffLevel;
+    }
+    if (scientificName != null) {
+      productData['scientificName'] = scientificName;
+    }
+    if (specialFeatures != null) {
+      productData['specialFeatures'] = specialFeatures;
+    }
+    if (uses != null) {
+      productData['uses'] = uses;
+    }
+    if (isCareTip != null) {
+      productData['isCareTip'] = isCareTip;
+    }
+    if (plantCaretip != null) {
+      productData['plantCaretip'] = plantCaretip;
+    }
+
     notifyListeners();
   }
 
