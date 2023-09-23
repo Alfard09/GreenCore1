@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:greencore_1/views/buyers/nav_screens/widgets/home_product.dart';
+import 'package:greencore_1/views/buyers/nav_screens/widgets/main_products_widgets.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 
 class CategoryText extends StatefulWidget {
@@ -96,7 +97,7 @@ class _CategoryTextState extends State<CategoryText> {
                   ),
                   Divider(),
                   SizedBox(
-                    height: 10,
+                    height: 2,
                   )
                 ],
               );
@@ -106,7 +107,7 @@ class _CategoryTextState extends State<CategoryText> {
 
           if (_selectedCategory != null)
             HomeproductWidget(categoryName: _selectedCategory!),
-          if (_selectedCategory == null) HomeproductWidget(categoryName: ''),
+          if (_selectedCategory == null) MainProductWidget(),
         ],
       ),
     );

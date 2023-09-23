@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
           BannerWidget(),
           CategoryText(),
           SizedBox(
-            height: 30,
+            height: 5,
           )
         ],
       ),

@@ -191,16 +191,22 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             itemBuilder: ((context, index) {
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: OutlinedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _selectedSize =
-                                          widget.productData['sizeList'][index];
-                                    });
-                                    print(_selectedSize);
-                                  },
-                                  child: Text(
-                                    widget.productData['sizeList'][index],
+                                child: Container(
+                                  color: _selectedSize ==
+                                          widget.productData['sizeList']
+                                      ? Colors.green.shade600
+                                      : null,
+                                  child: OutlinedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _selectedSize = widget
+                                            .productData['sizeList'][index];
+                                      });
+                                      print(_selectedSize);
+                                    },
+                                    child: Text(
+                                      widget.productData['sizeList'][index],
+                                    ),
                                   ),
                                 ),
                               );
@@ -613,56 +619,64 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ),
       ),
       bottomSheet: InkWell(
-        onTap: () {
-          if (widget.productData['sizeList'] != null) {
-            if (_selectedSize == null) {
-              showErrorSnack(context, 'Please select a Size');
-            } else {
-              _cartProvider.addProductToCart(
-                widget.productData['productName'],
-                widget.productData['productId'],
-                widget.productData['imageUrlList'],
-                // widget.productData['quantity'],
-                1,
-                widget.productData['quantity'],
-                widget.productData['productPrice'],
-                widget.productData['vendorId'],
-                _selectedSize,
-                widget.productData['scheduleDate'],
-              );
-              showSnack(context, 'Item added to cart');
-              setState(() {
-                _selectedSize =
-                    null; // Reset _selectedSize after adding to cart
-              });
-            }
-          } else {
-            _cartProvider.addProductToCart(
-              widget.productData['productName'],
-              widget.productData['productId'],
-              widget.productData['imageUrlList'],
-              // widget.productData['quantity'],
-              1,
-              widget.productData['quantity'],
-              widget.productData['productPrice'],
-              widget.productData['vendorId'],
-              _selectedSize,
-              widget.productData['scheduleDate'],
-            );
-            showSnack(context, 'Item added to cart');
+        onTap: _cartProvider.getCartItem
+                .containsKey(widget.productData['productId'])
+            ? null
+            : () {
+                if (widget.productData['sizeList'] != null) {
+                  if (_selectedSize == null) {
+                    showErrorSnack(context, 'Please select a Size');
+                  } else {
+                    _cartProvider.addProductToCart(
+                      widget.productData['productName'],
+                      widget.productData['productId'],
+                      widget.productData['imageUrlList'],
+                      // widget.productData['quantity'],
+                      1,
+                      widget.productData['quantity'],
+                      widget.productData['productPrice'],
+                      widget.productData['vendorId'],
+                      _selectedSize,
+                      widget.productData['scheduleDate'],
+                    );
+                    showSnack(context, 'Item added to cart');
+                    setState(() {
+                      _selectedSize =
+                          null; // Reset _selectedSize after adding to cart
+                    });
+                  }
+                } else {
+                  _cartProvider.addProductToCart(
+                    widget.productData['productName'],
+                    widget.productData['productId'],
+                    widget.productData['imageUrlList'],
+                    // widget.productData['quantity'],
+                    1,
+                    widget.productData['quantity'],
+                    widget.productData['productPrice'],
+                    widget.productData['vendorId'],
+                    _selectedSize,
+                    widget.productData['scheduleDate'],
+                  );
+                  showSnack(context, 'Item added to cart');
 
-            setState(() {
-              _selectedSize = null; // Reset _selectedSize after adding to cart
-            });
-          }
+                  setState(() {
+                    _selectedSize =
+                        null; // Reset _selectedSize after adding to cart
+                  });
+                }
 
-          print('Working');
-        },
+                print('Working');
+              },
         child: Container(
           height: 50,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color:
+                // _cartProvider.getCartItem
+                //         .containsKey(widget.productData['productId'])
+                //     ? Colors.grey:
+                Colors.white,
             border: Border(
               top: BorderSide(width: 0.5, color: Colors.black45),
             ),
@@ -677,14 +691,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               SizedBox(
                 width: 5,
               ),
-              Text(
-                'ADD TO CART',
-                style: TextStyle(
-                  color: Colors.green.shade600,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                ),
-              )
+              _cartProvider.getCartItem
+                      .containsKey(widget.productData['productId'])
+                  ? Text(
+                      'IN CART',
+                      style: TextStyle(
+                        color: Colors.green.shade600,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    )
+                  : Text(
+                      'ADD TO CART',
+                      style: TextStyle(
+                        color: Colors.green.shade600,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    )
             ],
           ),
         ),
@@ -692,46 +716,3 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-// body: Column(
-      //   children: [
-      //     Container(
-      //       height: 300,
-      //       width: double.infinity,
-      //       color: Colors.black,
-      //       child: Row(
-      //         children: [
-      //           Expanded(
-      //             child: ListView.builder(
-      //               scrollDirection: Axis.horizontal,
-      //               itemBuilder: (context, index) {
-      //                 return Padding(
-      //                   padding: const EdgeInsets.all(8.0),
-      //                   child: Container(
-      //                     width: double.infinity,
-      //                     color: Colors.white,
-      //                     height: 280,
-      //                     child: Image.network(
-      //                       widget.productData['imageUrlList'][index],
-      //                       fit: BoxFit.cover,
-      //                     ),
-      //                   ),
-      //                 );
-      //               },
-      //               itemCount: widget.productData['imageUrlList'].length,
-      //             ),
-      //           ),
-      //         ],
-      //       ),
-      //     )
-      //   ],
-      // ),

@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:greencore_1/provider/cart_provider.dart';
 import 'package:greencore_1/utils/float_notification.dart';
 import 'package:greencore_1/utils/show_snackBar.dart';
+import 'package:greencore_1/views/buyers/inner_screens/checkout_screen.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
@@ -276,24 +277,35 @@ class CartScreen extends StatelessWidget {
 
       bottomSheet: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Container(
-          height: 50,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.green.shade700,
-            borderRadius: BorderRadius.circular(3),
-          ),
-          child: Center(
-            child: Text(
-              "\$" +
-                  " " +
-                  _cartProvider.totalPrice.toStringAsFixed(2) +
-                  "  " +
-                  'CHECKOUT',
-              style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
+        child: InkWell(
+          onTap: _cartProvider.totalPrice == 0.00
+              ? null
+              : () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return CheckoutScreen();
+                  }));
+                },
+          child: Container(
+            height: 50,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: _cartProvider.totalPrice == 0.00
+                  ? Colors.grey
+                  : Colors.green.shade700,
+              borderRadius: BorderRadius.circular(3),
+            ),
+            child: Center(
+              child: Text(
+                "\$" +
+                    " " +
+                    _cartProvider.totalPrice.toStringAsFixed(2) +
+                    "  " +
+                    'CHECKOUT',
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ),

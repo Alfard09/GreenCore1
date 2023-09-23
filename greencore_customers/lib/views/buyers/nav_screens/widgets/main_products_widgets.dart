@@ -3,34 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:greencore_1/views/buyers/productDetail/product_detail_screen.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 
-class HomeproductWidget extends StatefulWidget {
-  //const HomeproductWidget({super.key});
-  final String categoryName;
-  const HomeproductWidget({super.key, required this.categoryName});
-
+class MainProductWidget extends StatefulWidget {
   @override
-  State<HomeproductWidget> createState() => _HomeproductWidgetState();
+  State<MainProductWidget> createState() => _MainProductWidget();
 }
 
-class _HomeproductWidgetState extends State<HomeproductWidget> {
+class _MainProductWidget extends State<MainProductWidget> {
   late Stream<QuerySnapshot> _productsStream;
   @override
   Widget build(BuildContext context) {
-    // _productsStream = FirebaseFirestore.instance
-    //     .collection('products')
-    //     .where('category', isEqualTo: widget.categoryName)
-    //     .snapshots();
-    // if (widget.categoryName == null || widget.categoryName.isEmpty) {
-    //   // Fetch all products if category is empty or null.
-    //   _productsStream =
-    //       FirebaseFirestore.instance.collection('products').snapshots();
-    // } else {
-    // Fetch products filtered by the specified category.
-    _productsStream = FirebaseFirestore.instance
-        .collection('products')
-        .where('category', isEqualTo: widget.categoryName)
-        .snapshots();
-    //}
+    _productsStream =
+        FirebaseFirestore.instance.collection('products').snapshots();
 
     return StreamBuilder<QuerySnapshot>(
       stream: _productsStream,
@@ -47,10 +30,16 @@ class _HomeproductWidgetState extends State<HomeproductWidget> {
         }
 
         return Container(
-          // decoration: BoxDecoration(color: Colors.amber),
           height: 245,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
+          child: GridView.builder(
+            shrinkWrap: true,
+            itemCount: snapshot.data!.docs.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
+              childAspectRatio: 200 / 300,
+            ),
             itemBuilder: (context, index) {
               final productData = snapshot.data!.docs[index];
               return InkWell(
@@ -62,7 +51,8 @@ class _HomeproductWidgetState extends State<HomeproductWidget> {
                   }));
                 },
                 child: Container(
-                  width: 170,
+                  // width: 170,
+
                   child: Card(
                     elevation: 1,
                     shadowColor: Colors.green,
@@ -114,10 +104,6 @@ class _HomeproductWidgetState extends State<HomeproductWidget> {
                 ),
               );
             },
-            separatorBuilder: (context, _) => SizedBox(
-              width: 15,
-            ),
-            itemCount: snapshot.data!.docs.length,
           ),
         );
       },
