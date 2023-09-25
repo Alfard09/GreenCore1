@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greencore_1/views/buyers/auth/login_screen.dart';
+import 'package:greencore_1/views/buyers/inner_screens/edit_profile_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -93,6 +94,33 @@ class AccountScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return EditProfileScreen(
+                        userData: data,
+                      );
+                    }));
+                  },
+                  child: Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width - 200,
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade600,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Edit Profile',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1),
+                      ),
                     ),
                   ),
                 ),
