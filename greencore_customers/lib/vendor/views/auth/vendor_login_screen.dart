@@ -71,6 +71,7 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
           await prefs.setBool('isVendorLoggedIn', true);
           //
           // Sign-in was successful, navigate to the next page (HomeScreen)
+          //commented for testing
           return Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -189,6 +190,7 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: TextFormField(
+                      key: Key('email_textfield'),
                       //controller: emailcontroller,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -222,6 +224,7 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                     child: TextFormField(
+                      key: Key('password_textfield'),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'please Password must not be empty!';
@@ -267,6 +270,7 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 35.0),
                     child: GestureDetector(
+                      key: Key('sign_in_button'),
                       onTap: () {
                         signUserIn();
                       },

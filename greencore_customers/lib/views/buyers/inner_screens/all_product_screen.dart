@@ -19,6 +19,7 @@ class _AllProductScreenState extends State<AllProductScreen> {
     final Stream<QuerySnapshot> _categoryStream = FirebaseFirestore.instance
         .collection('products')
         .where('category', isEqualTo: widget.categoryData['categoryName'])
+        .where('approved', isEqualTo: true)
         .snapshots();
     return Scaffold(
       appBar: AppBar(

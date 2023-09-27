@@ -61,6 +61,7 @@ class _CategoryTextState extends State<CategoryText> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 3),
                                 child: ActionChip(
+                                  //key: ,
                                   onPressed: () {
                                     setState(() {
                                       _selectedCategory =

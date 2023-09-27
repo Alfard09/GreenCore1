@@ -60,7 +60,7 @@ class _MainScreenState extends State<MainScreen> {
                 selectedItemColor: Colors.green[900],
                 items: [
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
+                    icon: Icon(Icons.home, key: Key('home_icon')),
                     label: 'HOME',
                   ),
                   BottomNavigationBarItem(

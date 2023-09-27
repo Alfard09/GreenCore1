@@ -18,6 +18,8 @@ class HomeScreen extends StatelessWidget {
             height: 10,
           ),
           SearchInputWidget(),
+
+          //
           BannerWidget(),
           CategoryText(),
           SizedBox(

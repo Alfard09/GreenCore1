@@ -12,8 +12,10 @@ class _MainProductWidget extends State<MainProductWidget> {
   late Stream<QuerySnapshot> _productsStream;
   @override
   Widget build(BuildContext context) {
-    _productsStream =
-        FirebaseFirestore.instance.collection('products').snapshots();
+    _productsStream = FirebaseFirestore.instance
+        .collection('products')
+        .where('approved', isEqualTo: true)
+        .snapshots();
 
     return StreamBuilder<QuerySnapshot>(
       stream: _productsStream,

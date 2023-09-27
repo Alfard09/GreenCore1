@@ -29,6 +29,7 @@ class _HomeproductWidgetState extends State<HomeproductWidget> {
     _productsStream = FirebaseFirestore.instance
         .collection('products')
         .where('category', isEqualTo: widget.categoryName)
+        .where('approved', isEqualTo: true)
         .snapshots();
     //}
 

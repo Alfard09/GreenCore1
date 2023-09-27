@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+//import 'package:flutter_driver/driver_extension.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:greencore_1/provider/cart_provider.dart';
 import 'package:greencore_1/provider/product_provider.dart';
@@ -14,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
+  //enableFlutterDriverExtension();
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
@@ -56,6 +58,7 @@ class MyApp extends StatelessWidget {
     // SystemChrome.setSystemUIOverlayStyle(
     //     SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return MaterialApp(
+        //navigatorObservers: [NavigatorObserverForTest()],
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(

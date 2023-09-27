@@ -18,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final AuthController _authController = AuthController();
 
   late String password;
+  // String? password = ''; //testing changes
   bool _isLoading = false;
 
 //added login persistent status
@@ -43,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = true;
     });
     if (_formKey.currentState!.validate()) {
-      String res = await _authController.loginUsers(email, password);
+      String res = await _authController.loginUsers(email, password); //password
 
       if (res == 'success') {
         // setState(() {
@@ -94,6 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Padding(
                   padding: const EdgeInsets.all(14.0),
                   child: TextFormField(
+                    key: Key('email_textfield'),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'please enter the email';
@@ -112,6 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Padding(
                   padding: const EdgeInsets.all(14.0),
                   child: TextFormField(
+                    key: Key('password_textfield'),
                     obscureText: true,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -124,6 +127,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     onChanged: (value) {
                       password = value;
+                      //testing chnages
+                      // setState(() {
+                      //   password = value;
+                      // });
+                      //
                     },
                     decoration: InputDecoration(labelText: 'Enter Password '),
                   ),
@@ -139,6 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     }));
                   },
                   child: InkWell(
+                    //changes made for testing
                     onTap: () {
                       _loginUsers();
                       // Navigator.push(context,
@@ -146,7 +155,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       //return MainScreen();
                       // }));
                     },
+                    //
+                    // onTap: () {
+                    //   if (password != null && password!.length >= 6) {
+                    //     _loginUsers();
+                    //   } else {
+                    //     showErrorSnack(context,
+                    //         'Password length should be at least 6 characters');
+                    //   }
+                    // },
+                    //
                     child: Container(
+                      key: Key('navigate_to_main_button'),
                       width: MediaQuery.of(context).size.width - 40,
                       height: 50,
                       decoration: BoxDecoration(

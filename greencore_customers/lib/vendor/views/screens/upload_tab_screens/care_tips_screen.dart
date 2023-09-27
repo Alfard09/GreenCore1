@@ -25,7 +25,7 @@ class _CareTipsState extends State<CareTips>
           children: [
             CheckboxListTile(
               title: Text(
-                'Plant Specifications? ',
+                'Plant Care Tip? ',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w400,

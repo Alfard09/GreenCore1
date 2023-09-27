@@ -5,6 +5,7 @@ import 'package:greencore_1/provider/cart_provider.dart';
 import 'package:greencore_1/utils/float_notification.dart';
 import 'package:greencore_1/utils/show_snackBar.dart';
 import 'package:greencore_1/views/buyers/inner_screens/checkout_screen.dart';
+import 'package:greencore_1/views/buyers/main_screen.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
@@ -261,19 +262,27 @@ class CartScreen extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width - 40,
-                    decoration: BoxDecoration(
-                      color: Colors.green.shade900,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Continue Shopping ',
-                        style: TextStyle(
-                          fontSize: 19,
-                          color: Colors.white,
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return MainScreen();
+                      }));
+                    },
+                    child: Container(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width - 40,
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade900,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Continue Shopping ',
+                          style: TextStyle(
+                            fontSize: 19,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
