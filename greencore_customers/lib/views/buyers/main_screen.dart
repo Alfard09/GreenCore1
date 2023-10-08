@@ -21,9 +21,9 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> _page = [
     HomeScreen(),
     CategoryScreen(),
-    StoreScreen(),
+    //StoreScreen(),
+    SearchScreen(),
     CartScreen(),
-    //SearchScreen(),
     AccountScreen(),
   ];
   Future<bool> _onWillPop() async {
@@ -70,12 +70,19 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     label: 'CATEGORY',
                   ),
+                  // BottomNavigationBarItem(
+                  //   icon: SvgPicture.asset(
+                  //     'assets/icons/shop.svg',
+                  //     width: 20,
+                  //   ),
+                  //   label: 'STORE',
+                  // ),
                   BottomNavigationBarItem(
                     icon: SvgPicture.asset(
-                      'assets/icons/shop.svg',
+                      'assets/icons/search.svg',
                       width: 20,
                     ),
-                    label: 'STORE',
+                    label: 'SEARCH',
                   ),
                   BottomNavigationBarItem(
                     icon: SvgPicture.asset(
@@ -84,13 +91,7 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     label: 'CART',
                   ),
-                  // BottomNavigationBarItem(
-                  //   icon: SvgPicture.asset(
-                  //     'assets/icons/search.svg',
-                  //     width: 20,
-                  //   ),
-                  //   label: 'SEARCH',
-                  // ),
+
                   BottomNavigationBarItem(
                     icon: SvgPicture.asset(
                       'assets/icons/account.svg',

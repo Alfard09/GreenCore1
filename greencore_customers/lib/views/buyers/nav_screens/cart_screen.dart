@@ -311,7 +311,7 @@ class CartScreen extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                "\$" +
+                "₹" +
                     " " +
                     _cartProvider.totalPrice.toStringAsFixed(2) +
                     "  " +

@@ -97,7 +97,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       ),
                                     ),
                                     Text(
-                                      "\$" +
+                                      "₹" +
                                           " " +
                                           cartData.price.toStringAsFixed(2),
                                       style: TextStyle(

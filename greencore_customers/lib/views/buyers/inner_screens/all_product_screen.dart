@@ -118,7 +118,7 @@ class _AllProductScreenState extends State<AllProductScreen> {
                         Padding(
                           padding: const EdgeInsets.all(0),
                           child: Text(
-                            '\$' +
+                            '₹' +
                                 " " +
                                 productData['productPrice'].toStringAsFixed(2),
                             style: TextStyle(
