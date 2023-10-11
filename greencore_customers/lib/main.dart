@@ -19,20 +19,26 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) {
-      return ProductProvider();
-    }),
-    ChangeNotifierProvider(create: (_) {
-      return CartProvider();
-    }),
-  ], child: MyApp()));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) {
+          return ProductProvider();
+        }),
+        ChangeNotifierProvider(create: (_) {
+          return CartProvider();
+        }),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   // const MyApp({super.key});
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   // Add this function to get the user type from SharedPreferences
   Future<String?> _getUserType() async {
@@ -51,6 +57,7 @@ class MyApp extends StatelessWidget {
   //changes
 
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
@@ -79,6 +86,7 @@ class MyApp extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return MaterialApp(
+                navigatorKey: navigatorKey,
                 home:
                     Scaffold(body: Center(child: CircularProgressIndicator())),
               );

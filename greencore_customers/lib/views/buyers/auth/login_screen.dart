@@ -166,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     // },
                     //
                     child: Container(
-                      key: Key('navigate_to_main_button'),
+                      key: Key('main_button'),
                       width: MediaQuery.of(context).size.width - 40,
                       height: 50,
                       decoration: BoxDecoration(

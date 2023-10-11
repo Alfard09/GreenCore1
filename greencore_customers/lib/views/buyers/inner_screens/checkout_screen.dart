@@ -137,7 +137,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 );
               }),
             ),
-            bottomSheet: data['address'] == ''
+            bottomSheet: data['address'] == null
                 ? TextButton(
                     onPressed: () {
                       Navigator.push(context,
