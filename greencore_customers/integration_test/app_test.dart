@@ -70,7 +70,7 @@ void main() {
       // final loginButton = find.byType(InkWell).last;
 
       debugDumpApp();
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(Duration(seconds: 3));
 
       final emailFormField = find.byKey(Key('email_textfield'));
       print(emailFormField);
