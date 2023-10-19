@@ -619,6 +619,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ),
       ),
       bottomSheet: InkWell(
+        key: Key('add_to_cart_button'),
         onTap: _cartProvider.getCartItem
                 .containsKey(widget.productData['productId'])
             ? null

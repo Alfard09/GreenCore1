@@ -44,7 +44,10 @@ class _MainProductWidget extends State<MainProductWidget> {
             ),
             itemBuilder: (context, index) {
               final productData = snapshot.data!.docs[index];
+              final productKey =
+                  Key('product_$index'); // Unique key for each product
               return InkWell(
+                key: productKey,
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return ProductDetailScreen(
