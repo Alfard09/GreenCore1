@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:greencore_1/views/buyers/nav_screens/search_screen.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({
@@ -18,11 +19,31 @@ class Welcome extends StatelessWidget {
             "assets/images/logo_1.png",
             width: 100,
           ),
-          Container(
-            child: SvgPicture.asset(
-              'assets/icons/cart.svg',
-            ),
-          )
+          Row(
+            children: [
+              Container(
+                child: SvgPicture.asset(
+                  'assets/icons/cart.svg',
+                  width: 22,
+                ),
+              ),
+              SizedBox(width: 10),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: ((context) {
+                    return SearchScreen();
+                  })));
+                },
+                child: Container(
+                  child: SvgPicture.asset(
+                    'assets/icons/search.svg',
+                    width: 22,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

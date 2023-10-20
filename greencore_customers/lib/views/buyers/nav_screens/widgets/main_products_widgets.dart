@@ -32,7 +32,8 @@ class _MainProductWidget extends State<MainProductWidget> {
         }
 
         return Container(
-          height: 245,
+          //height: MediaQuery.of(context).size.height,
+          height: 500,
           child: GridView.builder(
             shrinkWrap: true,
             itemCount: snapshot.data!.docs.length,
