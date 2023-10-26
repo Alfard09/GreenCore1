@@ -23,14 +23,17 @@ class VendorOrderScreen extends StatelessWidget {
         .snapshots();
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Color(0xff42275a),
         elevation: 1,
-        title: Text(
-          'My Orders',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+        title: Center(
+          child: Text(
+            'My Orders',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

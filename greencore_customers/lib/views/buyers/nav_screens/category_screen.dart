@@ -22,7 +22,7 @@ class CategoryScreen extends StatelessWidget {
           child: Text(
             'Categories',
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.green.shade600,
             ),
           ),
         ),

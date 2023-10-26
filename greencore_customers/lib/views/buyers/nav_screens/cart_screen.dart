@@ -18,9 +18,11 @@ class CartScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 1,
-        title: Text(
-          'Cart Screen',
-          style: TextStyle(color: Colors.green.shade600),
+        title: Center(
+          child: Text(
+            'Cart Screen',
+            style: TextStyle(color: Colors.green.shade600),
+          ),
         ),
         actions: [
           IconButton(
@@ -80,7 +82,7 @@ class CartScreen extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      "\$" +
+                                      "₹" +
                                           " " +
                                           cartData.price.toStringAsFixed(2),
                                       style: TextStyle(
@@ -290,41 +292,44 @@ class CartScreen extends StatelessWidget {
                 ],
               ),
             ),
-      bottomSheet: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: InkWell(
-          onTap: _cartProvider.totalPrice == 0.00
-              ? null
-              : () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return CheckoutScreen();
-                  }));
-                },
-          child: Container(
-            height: 50,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: _cartProvider.totalPrice == 0.00
-                  ? Colors.grey
-                  : Colors.green.shade700,
-              borderRadius: BorderRadius.circular(3),
-            ),
-            child: Center(
-              child: Text(
-                "₹" +
-                    " " +
-                    _cartProvider.totalPrice.toStringAsFixed(2) +
-                    "  " +
-                    'CHECKOUT',
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
+      bottomSheet: _cartProvider.getCartItem.isNotEmpty
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                onTap: _cartProvider.totalPrice == 0.00
+                    ? null
+                    : () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return CheckoutScreen();
+                        }));
+                      },
+                child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: _cartProvider.totalPrice == 0.00
+                        ? Colors.grey
+                        : Colors.green.shade700,
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "₹" +
+                          " " +
+                          _cartProvider.totalPrice.toStringAsFixed(2) +
+                          "  " +
+                          'CHECKOUT',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
-      ),
+            )
+          : null,
     );
   }
 }

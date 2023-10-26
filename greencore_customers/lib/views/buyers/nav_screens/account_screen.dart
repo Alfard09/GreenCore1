@@ -31,7 +31,7 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('buyers');
-    // return _auth.currentUser == null? 
+    // return _auth.currentUser == null?
     // Scaffold(
     //         appBar: AppBar(
     //           elevation: 0,
@@ -86,7 +86,7 @@ class AccountScreen extends StatelessWidget {
     //             ),
     //             InkWell(
     //               onTap: () {
-    //                 
+    //
     //               },
     //               child: Container(
     //                 height: 40,
@@ -106,13 +106,13 @@ class AccountScreen extends StatelessWidget {
     //                 ),
     //               ),
     //             ),
-   
-    //           
+
+    //
     //             ),
     //           ],
     //         ),
     //       ):
-   
+
     return FutureBuilder<DocumentSnapshot>(
       future: users.doc(_auth.currentUser!.uid).get(),
       builder:
@@ -130,16 +130,18 @@ class AccountScreen extends StatelessWidget {
               snapshot.data!.data() as Map<String, dynamic>;
           return Scaffold(
             appBar: AppBar(
-              elevation: 0,
+              automaticallyImplyLeading: false,
+              elevation: 1,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
-                  15,
+                  0,
                 ),
               ),
-              backgroundColor: Colors.lightGreen.shade700,
+              backgroundColor: Colors.white,
               title: Text(
                 'Profile',
-                style: TextStyle(letterSpacing: 4),
+                style:
+                    TextStyle(letterSpacing: 2, color: Colors.green.shade600),
               ),
               centerTitle: true,
               actions: [

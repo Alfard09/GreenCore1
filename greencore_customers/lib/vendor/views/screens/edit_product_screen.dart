@@ -11,13 +11,16 @@ class EditProductScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           centerTitle: true,
           elevation: 1,
-          title: Text(
-            'Manage Products',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+          title: Center(
+            child: Text(
+              'Manage Products',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           backgroundColor: Color(0xff42275a),

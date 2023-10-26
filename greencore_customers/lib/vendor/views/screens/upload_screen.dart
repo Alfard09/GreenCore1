@@ -170,9 +170,10 @@ class UploadScreen extends StatelessWidget {
         key: _formKey,
         child: Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: Color(0xff42275a),
             elevation: 0,
-            title: Text('Upload Screen'),
+            title: Center(child: Text('Upload Screen')),
             bottom: TabBar(
               isScrollable: true, // Make tabs scrollable
               indicatorColor: Colors.white,

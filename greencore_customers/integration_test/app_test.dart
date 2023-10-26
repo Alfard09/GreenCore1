@@ -118,6 +118,7 @@ void main() {
       await tester.tap(addToCartButton);
       await tester.pumpAndSettle(Duration(seconds: 3));
 //ends here
+//testing part 4 -- checking the cart
     });
   });
 }

@@ -22,7 +22,7 @@ class CustomerOrderScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Colors.green,
+          color: Colors.white,
         ),
         backgroundColor: Colors.green.shade700,
         elevation: 1,
@@ -122,7 +122,7 @@ class CustomerOrderScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  document['quantity']
+                                  document['selectedQuantity']
                                       .toString(), //selectedQuantity
                                 ),
                               ],

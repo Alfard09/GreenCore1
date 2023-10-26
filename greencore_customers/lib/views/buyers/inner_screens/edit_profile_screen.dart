@@ -30,12 +30,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       _fullNameController.text = widget.userData['fullName'];
       _emailController.text = widget.userData['email'];
       _phoneController.text = widget.userData['phoneNumber'];
+      //address = widget.userData['address'];
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference users = FirebaseFirestore.instance.collection('buyers');
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -68,6 +70,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     CircleAvatar(
                       radius: 60,
                       backgroundColor: Colors.grey,
+                      backgroundImage:
+                          NetworkImage(widget.userData['profileImage'] ?? ''),
                     ),
                     Positioned(
                       right: 0,
@@ -109,6 +113,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    controller: TextEditingController(
+                        text: widget.userData['address'] ?? ''),
                     onChanged: (value) {
                       address = value;
                     },
@@ -117,6 +123,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 40,
+                )
               ],
             ),
           ),
