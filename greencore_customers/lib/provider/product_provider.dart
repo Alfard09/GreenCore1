@@ -34,6 +34,8 @@ class ProductProvider with ChangeNotifier {
     //plantcaretip
     bool? isCareTip,
     String? plantCaretip,
+    //wishlist
+    bool? isWishlist,
   }) {
     if (productName != null) {
       productData['productName'] = productName;
@@ -116,6 +118,9 @@ class ProductProvider with ChangeNotifier {
     }
     if (plantCaretip != null) {
       productData['plantCaretip'] = plantCaretip;
+    }
+    if (isWishlist != null) {
+      productData['isWishlist'] = isWishlist;
     }
 
     notifyListeners();

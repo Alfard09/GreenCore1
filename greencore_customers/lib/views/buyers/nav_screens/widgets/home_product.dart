@@ -54,6 +54,7 @@ class _HomeproductWidgetState extends State<HomeproductWidget> {
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               final productData = snapshot.data!.docs[index];
+              print(productData);
               return InkWell(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {

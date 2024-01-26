@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:greencore_1/views/buyers/inner_screens/wishlist.dart';
 import 'package:greencore_1/views/buyers/nav_screens/search_screen.dart';
 
 class Welcome extends StatelessWidget {
@@ -21,10 +22,18 @@ class Welcome extends StatelessWidget {
           ),
           Row(
             children: [
-              Container(
-                child: SvgPicture.asset(
-                  'assets/icons/cart.svg',
-                  width: 22,
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: ((context) {
+                    return WishlistPage();
+                  })));
+                },
+                child: Container(
+                  child: SvgPicture.asset(
+                    'assets/icons/favorite.svg',
+                    width: 22,
+                  ),
                 ),
               ),
               SizedBox(width: 10),

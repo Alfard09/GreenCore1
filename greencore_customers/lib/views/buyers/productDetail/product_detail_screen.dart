@@ -29,6 +29,67 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     return outputDate;
   }
 
+  Future<void> _toggleWishlist() async {
+    // Check if the product is already in the wishlist
+    bool isInWishlist = await _checkIfInWishlist();
+
+    if (isInWishlist) {
+      _removeFromWishlist();
+    } else {
+      _addToWishlist();
+    }
+  }
+
+  Future<bool> _checkIfInWishlist() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('wishlist')
+        .where('productId', isEqualTo: widget.productData['productId'])
+        .limit(1)
+        .get();
+
+    return querySnapshot.docs.isNotEmpty;
+  }
+
+  // void _addToWishlist() async {
+  //   await FirebaseFirestore.instance.collection('wishlist').add({
+  //     'productName': widget.productData['productName'],
+  //     'productImage': widget.productData['imageUrlList'][0],
+  //     'productPrice': widget.productData['productPrice'],
+  //     'productId': widget.productData['productId'],
+  //     'isWishlist': true,
+  //   });
+  //   showSnack(context, 'Item added to wishlist');
+  // }
+  void _addToWishlist() async {
+    await FirebaseFirestore.instance.collection('wishlist').add({
+      'productName': widget.productData['productName'],
+      'productImage': widget.productData['imageUrlList'][0],
+      'productPrice': widget.productData['productPrice'],
+      'productId': widget.productData['productId'],
+    });
+    showSnack(context, 'Item added to wishlist');
+  }
+
+  void _removeFromWishlist() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('wishlist')
+        .where('productId', isEqualTo: widget.productData['productId'])
+        .limit(1)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      String documentId = querySnapshot.docs.first.id;
+
+      // Use the delete method to remove the document from the wishlist
+      await FirebaseFirestore.instance
+          .collection('wishlist')
+          .doc(documentId)
+          .delete();
+      setState(() {});
+      showSnack(context, 'Item removed from wishlist');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final CartProvider _cartProvider = Provider.of<CartProvider>(context);
@@ -48,7 +109,41 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ),
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart))
+          // IconButton(
+          //   onPressed: () {
+          //     _toggleWishlist();
+          //   },
+          //   icon: Icon(
+          //     widget.productData['isWishlist']
+          //         ? Icons.favorite
+          //         : Icons.favorite_border,
+          //     color: widget.productData['isWishlist'] ? Colors.red : null,
+          //   ),
+          // )
+          // Modify the IconButton code
+          IconButton(
+            onPressed: () async {
+              await _toggleWishlist();
+              setState(
+                  () {}); // Ensure the UI updates after the wishlist operation
+            },
+            icon: FutureBuilder<bool>(
+              // Use a FutureBuilder to determine the icon based on whether it's in the wishlist
+              future: _checkIfInWishlist(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  bool isInWishlist = snapshot.data ?? false;
+                  return Icon(
+                    isInWishlist ? Icons.favorite : Icons.favorite_border,
+                    color: isInWishlist ? Colors.red : Colors.transparent,
+                  );
+                } else {
+                  return Icon(Icons.favorite_border);
+                  // You can return a loading indicator or default icon while the future is resolving
+                }
+              },
+            ),
+          )
         ],
       ),
       body: SingleChildScrollView(
@@ -67,6 +162,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   child: PhotoView(
                     imageProvider: NetworkImage(
                       widget.productData['imageUrlList'][_imageIndex],
+                      // (widget.productData['imageUrlList'] as List<dynamic>?)
+                      //         ?.elementAt(_imageIndex) ??
+                      //     '',
                     ),
                     backgroundDecoration: BoxDecoration(
                       color: Colors.white,
@@ -85,8 +183,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     width: MediaQuery.of(context).size.width,
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
+                        //itemCount: (widget.productData['imageUrlList'] as List<dynamic>?)?.length ?? 0,
                         itemCount: widget.productData['imageUrlList'].length,
                         itemBuilder: ((context, index) {
+                          final imageUrlList = widget
+                              .productData['imageUrlList'] as List<dynamic>?;
+                          print("Index: $index");
+                          print("Image URL List: $imageUrlList");
+
                           return InkWell(
                             onTap: () {
                               setState(() {
