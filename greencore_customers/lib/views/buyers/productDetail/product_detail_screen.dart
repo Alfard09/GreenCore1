@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greencore_1/provider/cart_provider.dart';
@@ -61,9 +62,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //   showSnack(context, 'Item added to wishlist');
   // }
   void _addToWishlist() async {
+    String? buyerId = FirebaseAuth.instance.currentUser!.uid;
     await FirebaseFirestore.instance.collection('wishlist').add({
+      'buyerId': buyerId,
       'productName': widget.productData['productName'],
-      'productImage': widget.productData['imageUrlList'][0],
+      'Image': widget.productData['imageUrlList'][0],
       'productPrice': widget.productData['productPrice'],
       'productId': widget.productData['productId'],
     });
@@ -92,6 +95,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // print(widget.productData.data());
+    String productName = widget.productData['productName'];
+    print('Product Name: $productName');
+
     final CartProvider _cartProvider = Provider.of<CartProvider>(context);
     return Scaffold(
       appBar: AppBar(
@@ -135,7 +142,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   bool isInWishlist = snapshot.data ?? false;
                   return Icon(
                     isInWishlist ? Icons.favorite : Icons.favorite_border,
-                    color: isInWishlist ? Colors.red : Colors.transparent,
+                    color: isInWishlist ? Colors.red : null,
                   );
                 } else {
                   return Icon(Icons.favorite_border);
@@ -186,10 +193,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         //itemCount: (widget.productData['imageUrlList'] as List<dynamic>?)?.length ?? 0,
                         itemCount: widget.productData['imageUrlList'].length,
                         itemBuilder: ((context, index) {
-                          final imageUrlList = widget
-                              .productData['imageUrlList'] as List<dynamic>?;
-                          print("Index: $index");
-                          print("Image URL List: $imageUrlList");
+                          //final imageUrlList =
+                          widget.productData['imageUrlList'] as List<dynamic>?;
+                          //print("Index: $index");
+                          //print("Image URL List: $imageUrlList");
 
                           return InkWell(
                             onTap: () {

@@ -6,7 +6,11 @@ import 'package:jumping_dot/jumping_dot.dart';
 class HomeproductWidget extends StatefulWidget {
   //const HomeproductWidget({super.key});
   final String categoryName;
-  const HomeproductWidget({super.key, required this.categoryName});
+  //final Key? widgetKey;
+  const HomeproductWidget({
+    super.key,
+    required this.categoryName,
+  });
 
   @override
   State<HomeproductWidget> createState() => _HomeproductWidgetState();
@@ -49,6 +53,7 @@ class _HomeproductWidgetState extends State<HomeproductWidget> {
 
         return Container(
           // decoration: BoxDecoration(color: Colors.amber),
+          //  key: widget.widgetKey,
           height: 245,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,

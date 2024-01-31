@@ -65,6 +65,11 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+     //chatbot
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+    //
 }
 
 flutter {
@@ -79,6 +84,8 @@ dependencies {
 
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.gms:play-services-auth:20.6.0")
+
+    implementation 'com.android.support:multidex:1.0.3' //chatbot
     
 }
 

@@ -5,7 +5,8 @@ import 'package:greencore_1/views/buyers/nav_screens/widgets/main_products_widge
 import 'package:jumping_dot/jumping_dot.dart';
 
 class CategoryText extends StatefulWidget {
-  CategoryText({super.key});
+  final Key? widgetKey;
+  CategoryText({super.key, this.widgetKey});
 
   @override
   State<CategoryText> createState() => _CategoryTextState();
@@ -19,6 +20,7 @@ class _CategoryTextState extends State<CategoryText> {
     final Stream<QuerySnapshot> _categoryStream =
         FirebaseFirestore.instance.collection('categories').snapshots();
     return Padding(
+      key: widget.key,
       padding: const EdgeInsets.all(8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,7 +109,10 @@ class _CategoryTextState extends State<CategoryText> {
           //Text(_selectedCategory!),
 
           if (_selectedCategory != null)
-            HomeproductWidget(categoryName: _selectedCategory!),
+            HomeproductWidget(
+              categoryName: _selectedCategory!,
+              // key: Key('home_product_key'),
+            ),
           if (_selectedCategory == null) MainProductWidget(),
         ],
       ),
