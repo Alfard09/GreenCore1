@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:greencore_1/views/buyers/inner_screens/wishlist.dart';
 import 'package:greencore_1/views/buyers/nav_screens/search_screen.dart';
+import 'package:kommunicate_flutter/kommunicate_flutter.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({
@@ -23,6 +24,21 @@ class Welcome extends StatelessWidget {
           Row(
             children: [
               InkWell(
+                onTap: () async {
+                  WidgetsFlutterBinding.ensureInitialized();
+                  await KommunicateFlutterPlugin.buildConversation({
+                    'appId': '310455bba239a00856b03f88a8def31e',
+                  });
+                },
+                child: Container(
+                  child: Icon(
+                    Icons.chat_outlined,
+                    color: Color.fromARGB(255, 170, 201, 134),
+                  ),
+                ),
+              ),
+              SizedBox(width: 10),
+              InkWell(
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: ((context) {
@@ -32,6 +48,7 @@ class Welcome extends StatelessWidget {
                 child: Container(
                   child: SvgPicture.asset(
                     'assets/icons/favorite.svg',
+                    color: Color.fromARGB(255, 170, 201, 134),
                     width: 22,
                   ),
                 ),
@@ -47,6 +64,7 @@ class Welcome extends StatelessWidget {
                 child: Container(
                   child: SvgPicture.asset(
                     'assets/icons/search.svg',
+                    color: Color.fromARGB(255, 170, 201, 134),
                     width: 22,
                   ),
                 ),

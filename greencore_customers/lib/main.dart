@@ -91,7 +91,8 @@ class MyApp extends StatelessWidget {
                     Scaffold(body: Center(child: CircularProgressIndicator())),
               );
             } else {
-              WidgetsBinding.instance?.addPostFrameCallback((_) {
+              //? instead of dot
+              WidgetsBinding.instance.addPostFrameCallback((_) {
                 if (snapshot.hasData) {
                   // User is logged in, handle based on the user type (customer or vendor)
                   if (snapshot.data == 'vendor') {
