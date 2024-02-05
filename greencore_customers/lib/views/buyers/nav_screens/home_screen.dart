@@ -48,27 +48,18 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Welcome(),
-                SizedBox(
-                  height: 10,
-                ),
-                // SearchInputWidget(),
-                BannerWidget(),
-                CategoryText(),
-                SizedBox(
-                  height: 5,
-                ),
-                // Add other widgets as needed
-              ],
-            ),
+      body: ListView(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Welcome(),
+              SizedBox(height: 10),
+              // SearchInputWidget(),
+            ],
           ),
-          // Add other Sliver widgets as needed
+          BannerWidget(),
+          CategoryText(),
         ],
       ),
     );

@@ -158,71 +158,97 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           //mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              fit: StackFit.loose,
-              children: [
-                Container(
-                  height: 300,
-                  //width: MediaQuery.of(context).size.width,
-                  width: double.infinity,
-                  // color: Colors.white,
-                  child: PhotoView(
-                    imageProvider: NetworkImage(
-                      widget.productData['imageUrlList'][_imageIndex],
-                      // (widget.productData['imageUrlList'] as List<dynamic>?)
-                      //         ?.elementAt(_imageIndex) ??
-                      //     '',
+            Container(
+              height: 300,
+              child: PageView.builder(
+                itemCount: widget.productData['imageUrlList'].length,
+                physics: BouncingScrollPhysics(),
+                onPageChanged: (index) {
+                  setState(() {
+                    _imageIndex = index;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  return Container(
+                    height: 300,
+                    width: double.infinity,
+                    child: PhotoView(
+                      imageProvider: NetworkImage(
+                        widget.productData['imageUrlList'][index],
+                      ),
+                      backgroundDecoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
                     ),
-                    backgroundDecoration: BoxDecoration(
-                      color: Colors.white,
-                      // Set the background color.
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  // left: 0,
-                  right: 0,
-                  // top: 100,
-                  child: Container(
-                    height: 50,
-                    //width: MediaQuery.of(context).size.width,
-                    width: MediaQuery.of(context).size.width,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        //itemCount: (widget.productData['imageUrlList'] as List<dynamic>?)?.length ?? 0,
-                        itemCount: widget.productData['imageUrlList'].length,
-                        itemBuilder: ((context, index) {
-                          //final imageUrlList =
-                          widget.productData['imageUrlList'] as List<dynamic>?;
-                          //print("Index: $index");
-                          //print("Image URL List: $imageUrlList");
-
-                          return InkWell(
-                            onTap: () {
-                              setState(() {
-                                _imageIndex = index;
-                              });
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.white)),
-                                height: 50,
-                                width: 50,
-                                child: Image.network(
-                                  widget.productData['imageUrlList'][index],
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          );
-                        })),
-                  ),
-                ),
-              ],
+                  );
+                },
+              ),
             ),
+            // Stack(
+            //   fit: StackFit.loose,
+            //   children: [
+            //     Container(
+            //       height: 300,
+            //       //width: MediaQuery.of(context).size.width,
+            //       width: double.infinity,
+            //       // color: Colors.white,
+            //       child: PhotoView(
+            //         imageProvider: NetworkImage(
+            //           widget.productData['imageUrlList'][_imageIndex],
+            //           // (widget.productData['imageUrlList'] as List<dynamic>?)
+            //           //         ?.elementAt(_imageIndex) ??
+            //           //     '',
+            //         ),
+            //         backgroundDecoration: BoxDecoration(
+            //           color: Colors.white,
+            //           // Set the background color.
+            //         ),
+            //       ),
+            //     ),
+            //     Positioned(
+            //       bottom: 0,
+            //       // left: 0,
+            //       right: 0,
+            //       // top: 100,
+            //       child: Container(
+            //         height: 50,
+            //         //width: MediaQuery.of(context).size.width,
+            //         width: MediaQuery.of(context).size.width,
+            //         child: ListView.builder(
+            //             scrollDirection: Axis.horizontal,
+            //             //itemCount: (widget.productData['imageUrlList'] as List<dynamic>?)?.length ?? 0,
+            //             itemCount: widget.productData['imageUrlList'].length,
+            //             itemBuilder: ((context, index) {
+            //               //final imageUrlList =
+            //               widget.productData['imageUrlList'] as List<dynamic>?;
+            //               //print("Index: $index");
+            //               //print("Image URL List: $imageUrlList");
+
+            //               return InkWell(
+            //                 onTap: () {
+            //                   setState(() {
+            //                     _imageIndex = index;
+            //                   });
+            //                 },
+            //                 child: Padding(
+            //                   padding: const EdgeInsets.all(0.0),
+            //                   child: Container(
+            //                     decoration: BoxDecoration(
+            //                         border: Border.all(color: Colors.white)),
+            //                     height: 50,
+            //                     width: 50,
+            //                     child: Image.network(
+            //                       widget.productData['imageUrlList'][index],
+            //                       fit: BoxFit.cover,
+            //                     ),
+            //                   ),
+            //                 ),
+            //               );
+            //             })),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             SizedBox(
               height: 5,
             ),
