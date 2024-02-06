@@ -83,19 +83,19 @@ class WishlistPage extends StatelessWidget {
                   ),
                 ),
                 child: InkWell(
-                  onTap: () {
-                    // Print the entire document
-                    print("Product name: ${productData['productName']}");
-                    print("Product image: ${productData['Image']}");
+                  // onTap: () {
+                  //   // Print the entire document
+                  //   print("Product name: ${productData['productName']}");
+                  //   print("Product image: ${productData['Image']}");
 
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      print("Product data $productData");
-                      return ProductDetailScreen(
-                        productData: productData.data(),
-                      );
-                    }));
-                  },
+                  //   Navigator.push(context,
+                  //       MaterialPageRoute(builder: (context) {
+                  //     print("Product data $productData");
+                  //     return ProductDetailScreen(
+                  //       productData: productData.data(),
+                  //     );
+                  //   }));
+                  // },
                   child: Card(
                     elevation: 3,
                     margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
