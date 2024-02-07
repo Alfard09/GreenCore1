@@ -165,7 +165,7 @@ class CartScreen extends StatelessWidget {
                                                 child: Center(
                                                   child: IconButton(
                                                     onPressed: cartData
-                                                                .productQuantity ==
+                                                                .productQuantity <= //it was ==
                                                             cartData.quantity
                                                         ?
                                                         // null

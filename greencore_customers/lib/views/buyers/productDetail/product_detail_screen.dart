@@ -755,66 +755,162 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ],
         ),
       ),
+      // bottomSheet: InkWell(
+      //   key: Key('add_to_cart_button'),
+      //   onTap: _cartProvider.getCartItem
+      //           .containsKey(widget.productData['productId'])
+      //       ? null
+      //       : () {
+      //           if (widget.productData['sizeList'] != null) {
+      //             if (_selectedSize == null) {
+      //               showErrorSnack(context, 'Please select a Size');
+      //             } else {
+      //               _cartProvider.addProductToCart(
+      //                 widget.productData['productName'],
+      //                 widget.productData['productId'],
+      //                 widget.productData['imageUrlList'],
+      //                 // widget.productData['quantity'],
+      //                 1,
+      //                 widget.productData['quantity'],
+      //                 widget.productData['productPrice'],
+      //                 widget.productData['vendorId'],
+      //                 _selectedSize,
+      //                 widget.productData['scheduleDate'],
+      //               );
+      //               showSnack(context, 'Item added to cart');
+      //               setState(() {
+      //                 _selectedSize =
+      //                     null; // Reset _selectedSize after adding to cart
+      //               });
+      //             }
+      //           } else {
+      //             _cartProvider.addProductToCart(
+      //               widget.productData['productName'],
+      //               widget.productData['productId'],
+      //               widget.productData['imageUrlList'],
+      //               // widget.productData['quantity'],
+      //               1,
+      //               widget.productData['quantity'],
+      //               widget.productData['productPrice'],
+      //               widget.productData['vendorId'],
+      //               _selectedSize,
+      //               widget.productData['scheduleDate'],
+      //             );
+      //             showSnack(context, 'Item added to cart');
+
+      //             setState(() {
+      //               _selectedSize =
+      //                   null; // Reset _selectedSize after adding to cart
+      //             });
+      //           }
+
+      //           print('Working');
+      //         },
+      //   child: Container(
+      //     height: 50,
+      //     width: MediaQuery.of(context).size.width,
+      //     decoration: BoxDecoration(
+      //       color:
+      //           // _cartProvider.getCartItem
+      //           //         .containsKey(widget.productData['productId'])
+      //           //     ? Colors.grey:
+      //           Colors.white,
+      //       border: Border(
+      //         top: BorderSide(width: 0.5, color: Colors.black45),
+      //       ),
+      //     ),
+      //     child: Row(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         Icon(
+      //           CupertinoIcons.cart,
+      //           size: 22,
+      //         ),
+      //         SizedBox(
+      //           width: 5,
+      //         ),
+      //         _cartProvider.getCartItem
+      //                 .containsKey(widget.productData['productId'])
+      //             ? Text(
+      //                 'IN CART',
+      //                 style: TextStyle(
+      //                   color: Colors.green.shade600,
+      //                   fontSize: 18,
+      //                   fontWeight: FontWeight.w400,
+      //                 ),
+      //               )
+      //             : widget.productData['quantity'] <= 0
+      //                 ? Text(
+      //                     'OUT OF STOCK',
+      //                     style: TextStyle(
+      //                       color: Colors.red.shade600,
+      //                       fontSize: 18,
+      //                       fontWeight: FontWeight.w400,
+      //                     ),
+      //                   )
+      //                 : Text(
+      //                     'ADD TO CART',
+      //                     style: TextStyle(
+      //                       color: Colors.green.shade600,
+      //                       fontSize: 18,
+      //                       fontWeight: FontWeight.w400,
+      //                     ),
+      //                   ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
       bottomSheet: InkWell(
         key: Key('add_to_cart_button'),
-        onTap: _cartProvider.getCartItem
-                .containsKey(widget.productData['productId'])
+        onTap: widget.productData['quantity'] <= 0
             ? null
-            : () {
-                if (widget.productData['sizeList'] != null) {
-                  if (_selectedSize == null) {
-                    showErrorSnack(context, 'Please select a Size');
-                  } else {
-                    _cartProvider.addProductToCart(
-                      widget.productData['productName'],
-                      widget.productData['productId'],
-                      widget.productData['imageUrlList'],
-                      // widget.productData['quantity'],
-                      1,
-                      widget.productData['quantity'],
-                      widget.productData['productPrice'],
-                      widget.productData['vendorId'],
-                      _selectedSize,
-                      widget.productData['scheduleDate'],
-                    );
-                    showSnack(context, 'Item added to cart');
-                    setState(() {
-                      _selectedSize =
-                          null; // Reset _selectedSize after adding to cart
-                    });
-                  }
-                } else {
-                  _cartProvider.addProductToCart(
-                    widget.productData['productName'],
-                    widget.productData['productId'],
-                    widget.productData['imageUrlList'],
-                    // widget.productData['quantity'],
-                    1,
-                    widget.productData['quantity'],
-                    widget.productData['productPrice'],
-                    widget.productData['vendorId'],
-                    _selectedSize,
-                    widget.productData['scheduleDate'],
-                  );
-                  showSnack(context, 'Item added to cart');
-
-                  setState(() {
-                    _selectedSize =
-                        null; // Reset _selectedSize after adding to cart
-                  });
-                }
-
-                print('Working');
-              },
+            : _cartProvider.getCartItem
+                    .containsKey(widget.productData['productId'])
+                ? null
+                : () {
+                    if (widget.productData['sizeList'] != null) {
+                      if (_selectedSize == null) {
+                        showErrorSnack(context, 'Please select a Size');
+                      } else {
+                        _cartProvider.addProductToCart(
+                          widget.productData['productName'],
+                          widget.productData['productId'],
+                          widget.productData['imageUrlList'],
+                          1,
+                          widget.productData['quantity'],
+                          widget.productData['productPrice'],
+                          widget.productData['vendorId'],
+                          _selectedSize,
+                          widget.productData['scheduleDate'],
+                        );
+                        showSnack(context, 'Item added to cart');
+                        setState(() {
+                          _selectedSize = null;
+                        });
+                      }
+                    } else {
+                      _cartProvider.addProductToCart(
+                        widget.productData['productName'],
+                        widget.productData['productId'],
+                        widget.productData['imageUrlList'],
+                        1,
+                        widget.productData['quantity'],
+                        widget.productData['productPrice'],
+                        widget.productData['vendorId'],
+                        _selectedSize,
+                        widget.productData['scheduleDate'],
+                      );
+                      showSnack(context, 'Item added to cart');
+                      setState(() {
+                        _selectedSize = null;
+                      });
+                    }
+                  },
         child: Container(
           height: 50,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-            color:
-                // _cartProvider.getCartItem
-                //         .containsKey(widget.productData['productId'])
-                //     ? Colors.grey:
-                Colors.white,
+            color: Colors.white,
             border: Border(
               top: BorderSide(width: 0.5, color: Colors.black45),
             ),
@@ -839,14 +935,23 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         fontWeight: FontWeight.w400,
                       ),
                     )
-                  : Text(
-                      'ADD TO CART',
-                      style: TextStyle(
-                        color: Colors.green.shade600,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    )
+                  : widget.productData['quantity'] <= 0
+                      ? Text(
+                          'OUT OF STOCK',
+                          style: TextStyle(
+                            color: Colors.red.shade600,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )
+                      : Text(
+                          'ADD TO CART',
+                          style: TextStyle(
+                            color: Colors.green.shade600,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
             ],
           ),
         ),

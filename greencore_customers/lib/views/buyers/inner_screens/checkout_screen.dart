@@ -44,12 +44,22 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handdlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handdlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handdlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handdlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  @override
+  void dispose() {
+    _razorpay.clear();
+    super.dispose();
   }
 
   void _handdlePaymentSuccess(PaymentSuccessResponse response) {
     // setState(() {
     //   isPaymentComplete = true;
     // });
+    // _updateProductQuantityInOrdersCollection();
+    _updateProductQuantityInProductsCollection();
     _placeOrder();
   }
 
@@ -62,10 +72,68 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     EasyLoading.showError('Payment Failed. Please try again.');
   }
 
-  @override
-  void dispose() {
-    _razorpay.clear();
-    super.dispose();
+  // void _updateProductQuantityInOrdersCollection() {
+  //   _cartProvider.getCartItem.forEach((key, item) {
+  //     final orderId = Uuid().v4();
+  //     FirebaseFirestore.instance.collection('orders').doc(orderId).set({
+  //       // Existing order data...
+  //       'selectedQuantity': item.quantity,
+  //       // Update product quantity by subtracting selected quantity
+  //       'quantity': item.productQuantity - item.quantity,
+  //       // Other fields...
+  //     });
+  //   });
+  // }
+
+  void _updateProductQuantityInProductsCollection() {
+    _cartProvider.getCartItem.forEach((key, item) {
+      FirebaseFirestore.instance
+          .collection('products')
+          .doc(item.productId)
+          .update({
+        // Update product quantity by subtracting selected quantity
+        'quantity': item.productQuantity - item.quantity,
+        // Other fields...
+      });
+    });
+  }
+
+  void _placeOrder() {
+    EasyLoading.show(status: 'Placing Order');
+    //to place order
+    _cartProvider.getCartItem.forEach((key, item) {
+      final orderId = Uuid().v4();
+      FirebaseFirestore.instance.collection('orders').doc(orderId).set({
+        'orderId': orderId,
+        'vendorId': item.vendorId,
+        'email': data['email'],
+        'phone': data['phoneNumber'],
+        'address': data['address'],
+        'buyerId': data['buyerId'],
+        'fullName': data['fullName'],
+        'buyerPhoto': data['profileImage'],
+        'productName': item.productName,
+        'productPrice': item.price,
+        'productId': item.productId,
+        'productImage': item.imageUrl,
+        'quantity': item.productQuantity,
+        'selectedQuantity':
+            item.quantity, //to see the selected quantity in the cart
+        'productSize': item.productSize,
+        'scheduleDate': item.scheduleDate,
+        'orderDate': DateTime.now(),
+        'accepted': false,
+      }).whenComplete(() {
+        setState(() {
+          _cartProvider.getCartItem.clear();
+        });
+        EasyLoading.dismiss();
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) {
+          return MainScreen();
+        }));
+      });
+    });
   }
 
   @override
@@ -355,43 +423,5 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       print('Error in initiating payment: $e');
       EasyLoading.dismiss();
     }
-  }
-
-  void _placeOrder() {
-    EasyLoading.show(status: 'Placing Order');
-    //to place order
-    _cartProvider.getCartItem.forEach((key, item) {
-      final orderId = Uuid().v4();
-      FirebaseFirestore.instance.collection('orders').doc(orderId).set({
-        'orderId': orderId,
-        'vendorId': item.vendorId,
-        'email': data['email'],
-        'phone': data['phoneNumber'],
-        'address': data['address'],
-        'buyerId': data['buyerId'],
-        'fullName': data['fullName'],
-        'buyerPhoto': data['profileImage'],
-        'productName': item.productName,
-        'productPrice': item.price,
-        'productId': item.productId,
-        'productImage': item.imageUrl,
-        'quantity': item.productQuantity,
-        'selectedQuantity':
-            item.quantity, //to see the selected quantity in the cart
-        'productSize': item.productSize,
-        'scheduleDate': item.scheduleDate,
-        'orderDate': DateTime.now(),
-        'accepted': false,
-      }).whenComplete(() {
-        setState(() {
-          _cartProvider.getCartItem.clear();
-        });
-        EasyLoading.dismiss();
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return MainScreen();
-        }));
-      });
-    });
   }
 }
