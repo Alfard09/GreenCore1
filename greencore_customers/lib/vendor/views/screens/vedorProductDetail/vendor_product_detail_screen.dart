@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:greencore_1/utils/show_snackBar.dart';
+import 'package:intl/intl.dart';
 
 class VendorProductDetailScreen extends StatefulWidget {
   final dynamic productData;
@@ -25,6 +26,7 @@ class _VendorProductDetailScreenState extends State<VendorProductDetailScreen> {
       TextEditingController();
   final TextEditingController _productCategoryController =
       TextEditingController();
+  DateTime? _existingScheduleDate;
   //TextEditingController _specialFeatureController = TextEditingController();
   @override
   void initState() {
@@ -36,6 +38,7 @@ class _VendorProductDetailScreenState extends State<VendorProductDetailScreen> {
           widget.productData['productPrice'].toString();
       _productDescriptionController.text = widget.productData['description'];
       _productCategoryController.text = widget.productData['category'];
+      _existingScheduleDate = widget.productData['scheduleDate'].toDate();
 
       //_plantSpecification = widget.productData['isPlantSpecification'];
       //_specialFeatureController.text = widget.productData['specialFeatures'];
@@ -45,6 +48,15 @@ class _VendorProductDetailScreenState extends State<VendorProductDetailScreen> {
 
   double? productPrice;
   int? quantity;
+  DateTime? _scheduleDate;
+
+  String formatedDate(date) {
+    final outputDateFormate = DateFormat('dd/MM/yyyy');
+
+    final outputDate = outputDateFormate.format(date);
+
+    return outputDate;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +115,32 @@ class _VendorProductDetailScreenState extends State<VendorProductDetailScreen> {
                 decoration: InputDecoration(labelText: 'Category'),
               ),
               SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      showDatePicker(
+                        context: context,
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(3000),
+                      ).then((value) {
+                        setState(() {
+                          _scheduleDate = value;
+                        });
+                      });
+                    },
+                    child: Text("Schedule"),
+                  ),
+                  if (_scheduleDate != null)
+                    Text(
+                      formatedDate(_scheduleDate!),
+                    )
+                  else if (_existingScheduleDate != null)
+                    Text(formatedDate(_existingScheduleDate))
+                ],
+              ),
+              SizedBox(height: 60),
               // _plantSpecification == true
               //     ? Column(
               //         crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +176,9 @@ class _VendorProductDetailScreenState extends State<VendorProductDetailScreen> {
         padding: const EdgeInsets.all(12.0),
         child: InkWell(
           onTap: () async {
-            if (productPrice != null && quantity != null) {
+            if (productPrice != null &&
+                quantity != null &&
+                _scheduleDate != null) {
               EasyLoading.show(status: "UPDATING...");
               await _firestore
                   .collection('products')
@@ -150,11 +190,12 @@ class _VendorProductDetailScreenState extends State<VendorProductDetailScreen> {
                 'productPrice': productPrice,
                 'description': _productDescriptionController.text,
                 'category': _productCategoryController.text,
+                'scheduleDate': _scheduleDate,
               }).whenComplete(() {
                 EasyLoading.dismiss();
               });
             } else {
-              showErrorSnack(context, 'Update the Price & quantity');
+              showErrorSnack(context, 'Update the Price & quantity & Date');
             }
           },
           child: Container(
