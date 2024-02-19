@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:greencore1_admin_panel/views/screens/side_bar_screen/widgets/product_widget.dart';
 
 class ProductScreen extends StatelessWidget {
   static const String routeName = '\ProductsScreen';
@@ -49,10 +50,11 @@ class ProductScreen extends StatelessWidget {
               _rowHeader("NAME", 2),
               _rowHeader("PRICE", 2),
               _rowHeader("QUANTITY", 2),
-              _rowHeader("ACTION", 1),
+              _rowHeader("CATEGORY", 1),
               _rowHeader("VIEW MORE", 1),
             ],
           ),
+          ProductWidget(),
         ],
       ),
     );
