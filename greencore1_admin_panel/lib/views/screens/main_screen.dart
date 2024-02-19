@@ -62,8 +62,9 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return AdminScaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.white12,
       appBar: AppBar(
+        backgroundColor: Colors.green.shade500,
         title: Text(
           "GREEN CORE PANEL",
           style: TextStyle(
@@ -119,23 +120,24 @@ class _MainScreenState extends State<MainScreen> {
         //   color: Colors.green,
         //   chil
         // ),
-        footer: Container(
-          height: 50,
-          width: double.infinity,
-          child: Center(
-            child: Text("Logout"),
-          ),
-          // Column(
-          //   children: [
-          //     Text("Logout")
-          //     ListTile(
-          //       title: Text("Logout"),
-          //       trailing: Icon(Icons.logout),
-          //       tileColor: Colors.grey,
-          //     ),
-          //   ],
-          // ),
-        ),
+        // footer: Container(
+        //   height: 50,
+        //   width: double.infinity,
+        //   child: Center(
+        //     child: Text("Logout"),
+        //   ),
+
+        //   // Column(
+        //   //   children: [
+        //   //     Text("Logout")
+        //   //     ListTile(
+        //   //       title: Text("Logout"),
+        //   //       trailing: Icon(Icons.logout),
+        //   //       tileColor: Colors.grey,
+        //   //     ),
+        //   //   ],
+        //   // ),
+        // ),
       ),
       body: _selectedItem,
     );

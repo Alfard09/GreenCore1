@@ -111,16 +111,46 @@ class CategoryWidget extends StatelessWidget {
   }
 
   // Function to handle deleting a category
-  void deleteCategory(String categoryId) {
-    FirebaseFirestore.instance
-        .collection('categories')
-        .doc(categoryId)
-        .delete()
-        .then((value) {
-      print('Category deleted successfully.');
-    }).catchError((error) {
-      print('Failed to delete category: $error');
-    });
+  void deleteCategory(BuildContext context, String categoryId) {
+    // FirebaseFirestore.instance
+    //     .collection('categories')
+    //     .doc(categoryId)
+    //     .delete()
+    //     .then((value) {
+    //   print('Category deleted successfully.');
+    // }).catchError((error) {
+    //   print('Failed to delete category: $error');
+    // });
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Confirm Delete'),
+            content: Text("Are you sure you want to delete this category?"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("No"),
+              ),
+              TextButton(
+                onPressed: () {
+                  FirebaseFirestore.instance
+                      .collection('categories')
+                      .doc(categoryId)
+                      .delete()
+                      .then((value) {
+                    print('Category deleted successfully.');
+                  }).catchError((error) {
+                    print('Failed to delete category: $error');
+                  });
+                },
+                child: Text("Yes"),
+              ),
+            ],
+          );
+        });
   }
 
   @override
@@ -177,7 +207,8 @@ class CategoryWidget extends StatelessWidget {
                       onPressed: () {
                         // Add your delete functionality here
                         // deleteCategory(categoryData['categoryId']);
-                        deleteCategory(categoryData['categoryId']);
+                        deleteCategory(context, categoryData['categoryId']);
+                        // deleteCategory(categoryData['categoryId']);
                         // You can use categoryData['categoryId'] to identify the category
                       },
                       child: Text('Delete'),
