@@ -1,10 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:greencore_1/vendor/views/screens/vendor_inner_screen/withdraw_screen.dart';
 
-class EarningScreen extends StatelessWidget {
+class EarningScreen extends StatefulWidget {
   const EarningScreen({super.key});
 
+  @override
+  State<EarningScreen> createState() => _EarningScreenState();
+}
+
+class _EarningScreenState extends State<EarningScreen> {
   @override
   Widget build(BuildContext context) {
     CollectionReference users =
@@ -66,11 +72,11 @@ class EarningScreen extends StatelessWidget {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Text("Loading");
                   }
-                  double totalOrder = 0.0;
-                  for (var orderItem in snapshot.data!.docs) {
-                    totalOrder += orderItem['selectedQuantity'] *
-                        orderItem['productPrice'];
-                  }
+                  // double totalOrder = 0.0;
+                  // for (var orderItem in snapshot.data!.docs) {
+                  //   totalOrder += orderItem['selectedQuantity'] *
+                  //       orderItem['productPrice'];
+                  // }
                   int lenOrder = snapshot.data!.docs.length;
                   return Center(
                     child: Padding(
@@ -102,7 +108,10 @@ class EarningScreen extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Text(
-                                    "₹" + " " + totalOrder.toStringAsFixed(2),
+                                    "₹" +
+                                        " " +
+                                        data['balance'].toStringAsFixed(2),
+                                    //"₹" + " " + totalOrder.toStringAsFixed(2),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
@@ -146,6 +155,32 @@ class EarningScreen extends StatelessWidget {
                                   ),
                                 ),
                               ],
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return WithdrawalScreen();
+                              }));
+                            },
+                            child: Container(
+                              height: 40,
+                              width: MediaQuery.of(context).size.width / 1.5,
+                              decoration: BoxDecoration(
+                                color: Color(0xff3f1651),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Withdraw ",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ],

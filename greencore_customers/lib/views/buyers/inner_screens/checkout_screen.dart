@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:greencore_1/models/cart_attribute.dart';
 import 'package:greencore_1/provider/cart_provider.dart';
 import 'package:greencore_1/views/buyers/inner_screens/edit_profile_screen.dart';
 import 'package:greencore_1/views/buyers/main_screen.dart';
@@ -25,6 +26,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   late FirebaseFirestore _firestore;
   late CartProvider _cartProvider;
   late CollectionReference users;
+  late CollectionReference vendors;
   late Map<String, dynamic> data;
 
   // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -39,6 +41,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     _firestore = FirebaseFirestore.instance;
     _cartProvider = Provider.of<CartProvider>(context, listen: false);
     users = FirebaseFirestore.instance.collection('buyers');
+    vendors = FirebaseFirestore.instance.collection('vendors');
 
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handdlePaymentSuccess);
@@ -123,7 +126,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         'scheduleDate': item.scheduleDate,
         'orderDate': DateTime.now(),
         'accepted': false,
+        'totalPrice': item.price * item.quantity,
       }).whenComplete(() {
+        _updateSellerBalance(item);
         setState(() {
           _cartProvider.getCartItem.clear();
         });
@@ -135,6 +140,63 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       });
     });
   }
+
+  Future<void> _updateSellerBalance(CartAttr item) async {
+    try {
+      // Fetch the seller's document
+      DocumentReference vendorRef =
+          FirebaseFirestore.instance.collection('vendors').doc(item.vendorId);
+      DocumentSnapshot vendorDoc = await vendorRef.get();
+
+      if (vendorDoc.exists) {
+        // Get the current balance
+        double currentBalance =
+            (vendorDoc.data() as Map<String, dynamic>)['balance'] ?? 0.0;
+
+        // Calculate the new balance after deducting the total price of the ordered products
+        double newBalance = currentBalance + (item.price * item.quantity);
+
+        // Update the seller's document with the new balance
+        await vendorRef.set({'balance': newBalance}, SetOptions(merge: true));
+
+        print('Seller balance updated successfully: $newBalance');
+      } else {
+        print('Seller document with ID ${item.vendorId} does not exist');
+      }
+    } catch (e) {
+      print('Error updating seller balance: $e');
+    }
+  }
+
+  // Future<void> _updateSellerBalance(CartAttr item) async {
+  //   try {
+  //     // Fetch the seller's document
+  //     DocumentSnapshot sellerDoc = await FirebaseFirestore.instance
+  //         .collection('vendors')
+  //         .doc(item.vendorId)
+  //         .get();
+  //     if (sellerDoc.exists) {
+  //       // Get the current balance
+  //       double currentBalance = sellerDoc['balance'] ?? 0.0;
+
+  //       // Calculate the new balance after deducting the total price of the ordered products
+  //       double newBalance =
+  //           currentBalance + (item.productQuantity * item.quantity);
+
+  //       // Update the seller's document with the new balance
+  //       await FirebaseFirestore.instance
+  //           .collection('vendors')
+  //           .doc(item.vendorId)
+  //           .update({
+  //         'balance': newBalance,
+  //       });
+  //     } else {
+  //       print('Seller document does not exist');
+  //     }
+  //   } catch (e) {
+  //     print('Error updating seller balance: $e');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
