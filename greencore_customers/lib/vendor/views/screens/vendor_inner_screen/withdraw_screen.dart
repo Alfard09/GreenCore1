@@ -44,7 +44,7 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
     String amount,
   ) async {
     username = 'alfardkoshy2024@mca.ajce.in';
-    password = 'alfardkoshy1507';
+    password = 'alfardkoshy0307';
     // username = dotenv.env['EMAIL_ADDRESS'].toString();
     // password = dotenv.env['EMAIL_PASSWORD'].toString();
 

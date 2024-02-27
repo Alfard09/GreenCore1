@@ -66,6 +66,9 @@ dependencies:
   mailer: ^6.1.0
   pdf: ^3.10.8
   open_file: ^3.3.2
+  order_tracker: ^0.0.2
+  order_tracker_zen: ^1.0.0+4
+  timeline_tile: ^2.0.0
 
 dev_dependencies:
   flutter_driver:
