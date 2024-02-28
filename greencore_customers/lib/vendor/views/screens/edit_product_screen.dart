@@ -18,6 +18,7 @@ class EditProductScreen extends StatelessWidget {
             child: Text(
               'Manage Products',
               style: TextStyle(
+                color: Colors.white,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -28,10 +29,16 @@ class EditProductScreen extends StatelessWidget {
             indicatorColor: Colors.white,
             tabs: [
               Tab(
-                child: Text('Published'),
+                child: Text(
+                  'Published',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
               Tab(
-                child: Text('Unpublished'),
+                child: Text(
+                  'Unpublished',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),

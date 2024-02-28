@@ -380,6 +380,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:timeline_tile/timeline_tile.dart';
+import 'package:intl/intl.dart';
 
 class OrderTrackingPage extends StatefulWidget {
   final String orderId;
@@ -397,6 +398,11 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
   void initState() {
     super.initState();
     _firestore = FirebaseFirestore.instance;
+  }
+
+  String _formatDate(Timestamp timestamp) {
+    DateTime date = timestamp.toDate();
+    return '${date.day}-${date.month}-${date.year}';
   }
 
   @override
@@ -443,16 +449,74 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
   }
 
   Widget topDetails(Map<String, dynamic> data) {
-    return Row(
+    return Column(
       children: [
-        Expanded(
-          child: ListTile(
-            leading: Image.network(
-              data['productImage'][0],
-              fit: BoxFit.fill,
+        Row(
+          children: [
+            Expanded(
+              child: ListTile(
+                leading: Image.network(
+                  data['productImage'][0],
+                  fit: BoxFit.fill,
+                ),
+                title: Text(
+                  data['productName'],
+                  overflow: TextOverflow.ellipsis,
+                ),
+                subtitle: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Quantity:', style: TextStyle(fontSize: 14)),
+                        Text(data['selectedQuantity'].toString())
+                      ],
+                    ),
+                    data['accepted'] == true
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Delivery Date:'),
+                              Text(_formatDate(data['scheduleDate'])),
+                            ],
+                          )
+                        : Container(),
+                  ],
+                ),
+              ),
             ),
+          ],
+        ),
+        ListTile(
+          title: Text('Buyer Detail:'),
+          subtitle: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Name:'),
+                  Text(data['fullName']),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Email:'),
+                  Text(data['email']),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Address'),
+                  Text(data['address']),
+                ],
+              ),
+            ],
           ),
-        )
+        ),
       ],
     );
   }
