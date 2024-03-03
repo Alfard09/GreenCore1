@@ -53,27 +53,140 @@ class _CategoryScreenState extends State<CategoryScreen> {
     return downloadUrl;
   }
 
+  // uploadCategory() async {
+  //   if (_image != null && _formKey.currentState!.validate()) {
+  //     print('Valid');
+  //     EasyLoading.show();
+  //     String imageUrl = await _uploadCategoryBannerToStorage(_image);
+
+  //     await _firestore.collection('categories').doc(categoryId).set({
+  //       'image': imageUrl,
+  //       'categoryName': categoryName,
+  //       'categoryId': categoryId,
+  //     }).whenComplete(() {
+  //       EasyLoading.dismiss();
+  //       setState(() {
+  //         _image = null;
+  //         _formKey.currentState!.reset();
+  //       });
+  //     });
+  //   } else {
+  //     if (_formKey.currentState!.validate()) {
+  //       print('Please upload an image');
+  //       showDialog(
+  //           context: context,
+  //           builder: (context) {
+  //             return AlertDialog(
+  //               title: Text("Error"),
+  //               content: Text('Please upload an image.'),
+  //               actions: <Widget>[
+  //                 TextButton(
+  //                   onPressed: () {
+  //                     Navigator.of(context).pop();
+  //                   },
+  //                   child: Text('Ok'),
+  //                 ),
+  //               ],
+  //             );
+  //           });
+  //     } else {
+  //       print('Form is not valid');
+  //     }
+  //   }
+  // }
   uploadCategory() async {
-    if (_formKey.currentState!.validate()) {
-      //final uid = Uuid().v4();
+    if (_image != null && _formKey.currentState!.validate()) {
       print('Valid');
       EasyLoading.show();
       String imageUrl = await _uploadCategoryBannerToStorage(_image);
 
-      await _firestore.collection('categories').doc(categoryId).set({
-        'image': imageUrl,
-        'categoryName': categoryName,
-        'categoryId': categoryId,
-      }).whenComplete(() {
+      // Check for duplicate category name
+      bool isDuplicate = await checkDuplicateCategory(categoryName);
+      if (isDuplicate) {
         EasyLoading.dismiss();
-        setState(() {
-          _image = null;
-          _formKey.currentState!.reset();
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text('Category name already exists.'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        // Save the category if it's not a duplicate
+        await _firestore.collection('categories').doc(categoryId).set({
+          'image': imageUrl,
+          'categoryName': categoryName,
+          'categoryId': categoryId,
+        }).whenComplete(() {
+          EasyLoading.dismiss();
+          setState(() {
+            _image = null;
+            _formKey.currentState!.reset();
+          });
         });
-      });
+      }
     } else {
-      print('Not Valid');
+      if (_formKey.currentState!.validate()) {
+        print('Please upload an image');
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text('Please upload an image.'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        print('Form is not valid');
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text('Form is not valid.'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
     }
+  }
+
+// Function to check for duplicate category name in Firebase
+  Future<bool> checkDuplicateCategory(String categoryName) async {
+    QuerySnapshot querySnapshot = await _firestore
+        .collection('categories')
+        .where('categoryName', isEqualTo: categoryName)
+        .get();
+    bool isDuplicate = querySnapshot.docs.isNotEmpty;
+    print('Duplicate category check result: $isDuplicate');
+    return isDuplicate;
   }
 
   @override

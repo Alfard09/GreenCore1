@@ -112,15 +112,6 @@ class CategoryWidget extends StatelessWidget {
 
   // Function to handle deleting a category
   void deleteCategory(BuildContext context, String categoryId) {
-    // FirebaseFirestore.instance
-    //     .collection('categories')
-    //     .doc(categoryId)
-    //     .delete()
-    //     .then((value) {
-    //   print('Category deleted successfully.');
-    // }).catchError((error) {
-    //   print('Failed to delete category: $error');
-    // });
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -145,6 +136,7 @@ class CategoryWidget extends StatelessWidget {
                   }).catchError((error) {
                     print('Failed to delete category: $error');
                   });
+                  Navigator.of(context).pop();
                 },
                 child: Text("Yes"),
               ),
@@ -194,24 +186,42 @@ class CategoryWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        // Call the editCategory function to edit the category
-                        // editCategory(context, categoryData['categoryId']);
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     // Call the editCategory function to edit the category
+                    //     // editCategory(context, categoryData['categoryId']);
+                    //     editCategory(context, snapshot.data!.docs[index]);
+                    //   },
+                    //   child: Text('Edit'),
+                    // ),
+                    GestureDetector(
+                      onTap: () {
                         editCategory(context, snapshot.data!.docs[index]);
                       },
-                      child: Text('Edit'),
+                      child: Icon(
+                        Icons.edit,
+                        color: Colors.green,
+                      ),
                     ),
                     SizedBox(width: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Add your delete functionality here
-                        // deleteCategory(categoryData['categoryId']);
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     // Add your delete functionality here
+                    //     // deleteCategory(categoryData['categoryId']);
+                    //     deleteCategory(context, categoryData['categoryId']);
+                    //     // deleteCategory(categoryData['categoryId']);
+                    //     // You can use categoryData['categoryId'] to identify the category
+                    //   },
+                    //   child: Text('Delete'),
+                    // ),
+                    GestureDetector(
+                      onTap: () {
                         deleteCategory(context, categoryData['categoryId']);
-                        // deleteCategory(categoryData['categoryId']);
-                        // You can use categoryData['categoryId'] to identify the category
                       },
-                      child: Text('Delete'),
+                      child: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ),
                     ),
                   ],
                 ),

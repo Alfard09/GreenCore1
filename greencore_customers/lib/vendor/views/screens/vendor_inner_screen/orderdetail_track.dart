@@ -430,10 +430,13 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                   topDetails(data),
                   Divider(),
                   buildTimeline(currentStatus),
-                  SizedBox(height: 20),
+                  SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: () => _updateStatus(currentStatus),
-                    child: Text("Update Status"),
+                    child: Text(
+                      "Update Status",
+                      style: TextStyle(color: Colors.purple),
+                    ),
                   ),
                 ],
               ),

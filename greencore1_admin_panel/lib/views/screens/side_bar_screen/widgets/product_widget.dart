@@ -95,10 +95,10 @@ class ProductWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    productData(
-                        1,
-                        ElevatedButton(
-                            onPressed: () {}, child: Text('View More'))),
+                    // productData(
+                    //     1,
+                    //     ElevatedButton(
+                    //         onPressed: () {}, child: Text('View More'))),
                   ],
                 ),
               );

@@ -51,7 +51,7 @@ class ProductScreen extends StatelessWidget {
               _rowHeader("PRICE", 2),
               _rowHeader("QUANTITY", 2),
               _rowHeader("CATEGORY", 1),
-              _rowHeader("VIEW MORE", 1),
+              // _rowHeader("VIEW MORE", 1),
             ],
           ),
           ProductWidget(),

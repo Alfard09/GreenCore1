@@ -110,10 +110,10 @@ class VendorWidget extends StatelessWidget {
                               child: Text('Reject'),
                             ),
                     ),
-                    vendorData(
-                        1,
-                        ElevatedButton(
-                            onPressed: () {}, child: Text('View More'))),
+                    // vendorData(
+                    //     1,
+                    //     ElevatedButton(
+                    //         onPressed: () {}, child: Text('View More'))),
                   ],
                 ),
               );
