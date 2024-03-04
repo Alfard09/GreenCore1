@@ -84,16 +84,16 @@ class _MainScreenState extends State<MainScreen> {
             icon: CupertinoIcons.person_3,
             route: VendorScreen.routeName,
           ),
-          AdminMenuItem(
-            title: 'Withdraw',
-            icon: CupertinoIcons.money_dollar,
-            route: WithdrawScreen.routeName,
-          ),
-          AdminMenuItem(
-            title: 'Orders',
-            icon: CupertinoIcons.shopping_cart,
-            route: OrderScreen.routeName,
-          ),
+          // AdminMenuItem(
+          //   title: 'Withdraw',
+          //   icon: CupertinoIcons.money_dollar,
+          //   route: WithdrawScreen.routeName,
+          // ),
+          // AdminMenuItem(
+          //   title: 'Orders',
+          //   icon: CupertinoIcons.shopping_cart,
+          //   route: OrderScreen.routeName,
+          // ),
           AdminMenuItem(
             title: 'Categories',
             icon: Icons.category,

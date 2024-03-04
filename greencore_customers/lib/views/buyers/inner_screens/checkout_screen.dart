@@ -127,6 +127,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         'orderDate': DateTime.now(),
         'accepted': false,
         'totalPrice': item.price * item.quantity,
+        'fullPrice':
+            item.price * item.quantity //for full price in the earning screen
       }).whenComplete(() {
         _updateSellerBalance(item);
         setState(() {
@@ -152,14 +154,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         // Get the current balance
         double currentBalance =
             (vendorDoc.data() as Map<String, dynamic>)['balance'] ?? 0.0;
+        double currentFullPrice =
+            (vendorDoc.data() as Map<String, dynamic>)['fullPrice'] ?? 0.0;
 
         // Calculate the new balance after deducting the total price of the ordered products
         double newBalance = currentBalance + (item.price * item.quantity);
+        double newFullPrice = currentFullPrice + (item.price * item.quantity);
 
         // Update the seller's document with the new balance
-        await vendorRef.set({'balance': newBalance}, SetOptions(merge: true));
+        await vendorRef.set({
+          'balance': newBalance,
+          'fullPrice': newFullPrice,
+        }, SetOptions(merge: true));
 
-        print('Seller balance updated successfully: $newBalance');
+        print(
+            'Seller balance updated successfully: $newBalance  $newFullPrice');
       } else {
         print('Seller document with ID ${item.vendorId} does not exist');
       }

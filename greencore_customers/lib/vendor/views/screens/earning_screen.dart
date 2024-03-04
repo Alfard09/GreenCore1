@@ -302,39 +302,158 @@ class _EarningScreenState extends State<EarningScreen> {
                     children: [
                       Container(
                         height: 150,
-                        width: MediaQuery.of(context).size.width * 0.65,
-                        decoration: BoxDecoration(
-                          color: Color(0xff3f1651),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Column(
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                'TOTAL EARNINGS',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            // Container for Balance
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Color(0xff3f1651),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Text(
+                                      'EARNINGS',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Text(
+                                      "₹" +
+                                          " " +
+                                          data['fullPrice'].toStringAsFixed(2),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                "₹" + " " + data['balance'].toStringAsFixed(2),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            // Container for Amount
+                            SizedBox(width: 10),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Color(0xff3f1651),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Text(
+                                      'BALANCE',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Text(
+                                      "₹" +
+                                          " " +
+                                          data['balance'].toStringAsFixed(2),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
+                      // Container(
+                      //   height: 150,
+                      //   width: MediaQuery.of(context).size.width * 0.65,
+                      //   decoration: BoxDecoration(
+                      //     color: Color(0xff3f1651),
+                      //     borderRadius: BorderRadius.circular(30),
+                      //   ),
+                      //   child: Row(
+                      //     children: [
+                      //       Column(
+                      //         children: [
+                      //           Padding(
+                      //             padding: const EdgeInsets.all(10.0),
+                      //             child: Text(
+                      //               'TOTAL EARNINGS',
+                      //               style: TextStyle(
+                      //                 color: Colors.white,
+                      //                 fontSize: 20,
+                      //                 fontWeight: FontWeight.bold,
+                      //               ),
+                      //             ),
+                      //           ),
+                      //           Padding(
+                      //             padding: const EdgeInsets.all(10.0),
+                      //             child: Text(
+                      //               "₹" +
+                      //                   " " +
+                      //                   data['fullPrice'].toStringAsFixed(2),
+                      //               style: TextStyle(
+                      //                 color: Colors.white,
+                      //                 fontSize: 20,
+                      //                 fontWeight: FontWeight.bold,
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //       Column(
+                      //         children: [
+                      //           Padding(
+                      //             padding: const EdgeInsets.all(10.0),
+                      //             child: Text(
+                      //               'BALANCE',
+                      //               style: TextStyle(
+                      //                 color: Colors.white,
+                      //                 fontSize: 20,
+                      //                 fontWeight: FontWeight.bold,
+                      //               ),
+                      //             ),
+                      //           ),
+                      //           Padding(
+                      //             padding: const EdgeInsets.all(10.0),
+                      //             child: Text(
+                      //               "₹" +
+                      //                   " " +
+                      //                   data['balance'].toStringAsFixed(2),
+                      //               style: TextStyle(
+                      //                 color: Colors.white,
+                      //                 fontSize: 20,
+                      //                 fontWeight: FontWeight.bold,
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
                       Container(
                         height: 150,
                         width: MediaQuery.of(context).size.width * 0.65,
