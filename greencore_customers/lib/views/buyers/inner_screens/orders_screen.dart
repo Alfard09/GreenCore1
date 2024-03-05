@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+
+import 'package:greencore_1/views/buyers/inner_screens/customer_order_tracking.dart';
 import 'package:intl/intl.dart';
 
 class CustomerOrderScreen extends StatelessWidget {
@@ -52,121 +53,57 @@ class CustomerOrderScreen extends StatelessWidget {
 
           return ListView(
             children: snapshot.data!.docs.map((DocumentSnapshot document) {
-              return Column(
-                children: [
-                  ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 14,
-                      child: document['accepted'] == true
-                          ? Icon(Icons.delivery_dining)
-                          : Icon(Icons.access_time),
-                    ),
-                    title: document['accepted'] == true
-                        ? Text(
-                            'Accepted',
-                            style: TextStyle(color: Colors.green.shade700),
-                          )
-                        : Text(
-                            'Not Accepted',
-                            style: TextStyle(color: Colors.red.shade700),
-                          ),
-                    trailing: Text(
-                      'Amount' +
-                          " " +
-                          document['productPrice'].toStringAsFixed(2),
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.blueGrey,
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return OrderTrackingCustomer(
+                      orderId: document['orderId'],
+                    );
+                  }));
+                },
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 14,
+                        child: document['accepted'] == true
+                            ? Icon(Icons.delivery_dining)
+                            : Icon(Icons.access_time),
                       ),
-                    ),
-                    subtitle: Text(
-                      formattedDate(
-                        document['orderDate'].toDate(),
-                      ),
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blueGrey,
-                      ),
-                    ),
-                  ),
-                  ExpansionTile(
-                    title: Text(
-                      'Order Details',
-                      style: TextStyle(
-                        color: Color(0xff42275a),
-                        fontSize: 15,
-                      ),
-                    ),
-                    subtitle: Text('View Order Details'),
-                    children: [
-                      ListTile(
-                        leading: CircleAvatar(
-                          child: Image.network(
-                            document['productImage'][0],
-                          ),
-                        ),
-                        title: Text(document['productName']),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  'Quantity',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
-                                  document['selectedQuantity']
-                                      .toString(), //selectedQuantity
-                                ),
-                              ],
-                            ),
-                            document['accepted'] == true
-                                ? Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text('Schedule Delivery Date'),
-                                      Text(
-                                        formattedDate(
-                                          document['scheduleDate'].toDate(),
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                : Text(''),
-                            ListTile(
-                              title: Text(
-                                'Buyer Details',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
-                              ),
-                              subtitle: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(document['fullName']),
-                                  Text(document['email']),
-                                  Text(document['address']),
-                                ],
-                              ),
+                      title: document['accepted'] == true
+                          ? Text(
+                              'Order placed',
+                              style: TextStyle(color: Colors.green.shade700),
                             )
-                          ],
+                          : Text(
+                              'Order in process',
+                              style: TextStyle(color: Colors.red.shade700),
+                            ),
+                      trailing: Text(
+                        'Amount' +
+                            " " +
+                            document['productPrice'].toStringAsFixed(2),
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.blueGrey,
                         ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  )
-                ],
+                      ),
+                      subtitle: Text(
+                        formattedDate(
+                          document['orderDate'].toDate(),
+                        ),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blueGrey,
+                        ),
+                      ),
+                    ),
+                    Divider(),
+                    SizedBox(height: 20)
+                  ],
+                ),
               );
             }).toList(),
           );

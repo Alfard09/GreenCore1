@@ -217,33 +217,33 @@ class AccountScreen extends StatelessWidget {
                       color: Colors.grey,
                     ),
                   ),
-                  ListTile(
-                    leading: Icon(Icons.settings),
-                    title: Text(
-                      'Settings',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.phone),
-                    title: Text(
-                      'Phone',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.shopping_cart_checkout),
-                    title: Text(
-                      'Cart',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
+                  // ListTile(
+                  //   leading: Icon(Icons.settings),
+                  //   title: Text(
+                  //     'Settings',
+                  //     style: TextStyle(
+                  //       fontSize: 18,
+                  //     ),
+                  //   ),
+                  // ),
+                  // ListTile(
+                  //   leading: Icon(Icons.phone),
+                  //   title: Text(
+                  //     'Phone',
+                  //     style: TextStyle(
+                  //       fontSize: 18,
+                  //     ),
+                  //   ),
+                  // ),
+                  // ListTile(
+                  //   leading: Icon(Icons.shopping_cart_checkout),
+                  //   title: Text(
+                  //     'Cart',
+                  //     style: TextStyle(
+                  //       fontSize: 18,
+                  //     ),
+                  //   ),
+                  // ),
                   ListTile(
                     onTap: () async {
                       Navigator.push(context,
