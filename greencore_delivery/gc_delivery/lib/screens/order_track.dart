@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class OrderTrackingPage extends StatefulWidget {
@@ -13,6 +14,8 @@ class OrderTrackingPage extends StatefulWidget {
 
 class _OrderTrackingPageState extends State<OrderTrackingPage> {
   late FirebaseFirestore _firestore;
+  late QRViewController qrController;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   @override
   void initState() {
@@ -51,13 +54,24 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                   Divider(),
                   buildTimeline(currentStatus),
                   SizedBox(height: 30),
-                  ElevatedButton(
-                    onPressed: () => _updateStatus(currentStatus),
-                    child: Text(
-                      "Update Status",
-                      style: TextStyle(color: Colors.redAccent),
+                  if (currentStatus == 'Out for Delivery')
+                    ElevatedButton(
+                      onPressed: () {
+                        _scanQR();
+                      },
+                      child: Text(
+                        "Scan QRCode",
+                        style: TextStyle(color: Colors.redAccent),
+                      ),
+                    )
+                  else
+                    ElevatedButton(
+                      onPressed: () => _updateStatus(currentStatus),
+                      child: Text(
+                        "Update Status",
+                        style: TextStyle(color: Colors.redAccent),
+                      ),
                     ),
-                  ),
                 ],
               ),
             );
@@ -185,152 +199,47 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
     );
   }
 
-//horizontal working
-  // Widget buildTimeline(String currentStatus) {
-  //   return Column(
-  //     children: [
-  //       TimelineTile(
-  //         alignment: TimelineAlign.manual,
-  //         isFirst: true,
-  //         lineXY: 0.1,
-  //         indicatorStyle: IndicatorStyle(
-  //           color: currentStatus == "Order Placed"
-  //               ? Colors.green
-  //               : Colors.blueGrey,
-  //           width: 30,
-  //           indicator: Container(
-  //             decoration: BoxDecoration(
-  //               shape: BoxShape.circle,
-  //               color: currentStatus == "Order Placed"
-  //                   ? Colors.green
-  //                   : Colors.blueGrey,
-  //             ),
-  //           ),
-  //         ),
-  //         beforeLineStyle: LineStyle(
-  //           color: Colors.blueGrey,
-  //         ),
-  //         afterLineStyle: LineStyle(
-  //           color: Colors.blueGrey,
-  //         ),
-  //         startChild: SizedBox(width: 30),
-  //         endChild: Container(
-  //           padding: EdgeInsets.all(8.0),
-  //           color: Colors.grey[300],
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Text("Order Placed"),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //       TimelineTile(
-  //         alignment: TimelineAlign.manual,
-  //         lineXY: 0.1,
-  //         indicatorStyle: IndicatorStyle(
-  //           color:
-  //               currentStatus == "Shipped" ? Colors.green : Color(0xff42275a),
-  //           width: 30,
-  //           indicator: Container(
-  //             decoration: BoxDecoration(
-  //               shape: BoxShape.circle,
-  //               color:
-  //                   currentStatus == "Shipped" ? Colors.green : Colors.blueGrey,
-  //             ),
-  //           ),
-  //         ),
-  //         beforeLineStyle: LineStyle(
-  //           color: Colors.blueGrey,
-  //         ),
-  //         afterLineStyle: LineStyle(
-  //           color: Colors.blueGrey,
-  //         ),
-  //         startChild: SizedBox(width: 30),
-  //         endChild: Container(
-  //           padding: EdgeInsets.all(8.0),
-  //           color: Colors.grey[300],
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Text("Shipped"),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //       TimelineTile(
-  //         alignment: TimelineAlign.manual,
-  //         lineXY: 0.1,
-  //         indicatorStyle: IndicatorStyle(
-  //           color: currentStatus == "Out for Delivery"
-  //               ? Colors.green
-  //               : Colors.grey,
-  //           width: 30,
-  //           indicator: Container(
-  //             decoration: BoxDecoration(
-  //               shape: BoxShape.circle,
-  //               color: currentStatus == "Out for Delivery"
-  //                   ? Colors.green
-  //                   : Colors.blueGrey,
-  //             ),
-  //           ),
-  //         ),
-  //         beforeLineStyle: LineStyle(
-  //           color: Colors.blueGrey,
-  //         ),
-  //         afterLineStyle: LineStyle(
-  //           color: Colors.blueGrey,
-  //         ),
-  //         startChild: SizedBox(width: 30),
-  //         endChild: Container(
-  //           padding: EdgeInsets.all(8.0),
-  //           color: Colors.grey[300],
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Text("Out for Delivery"),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //       TimelineTile(
-  //         alignment: TimelineAlign.manual,
-  //         lineXY: 0.1,
-  //         isLast: true,
-  //         indicatorStyle: IndicatorStyle(
-  //           color:
-  //               currentStatus == "Delivered" ? Colors.green : Colors.blueGrey,
-  //           width: 30,
-  //           indicator: Container(
-  //             decoration: BoxDecoration(
-  //               shape: BoxShape.circle,
-  //               color: currentStatus == "Delivered"
-  //                   ? Colors.green
-  //                   : Colors.blueGrey,
-  //             ),
-  //           ),
-  //         ),
-  //         beforeLineStyle: LineStyle(
-  //           color: Colors.blueGrey,
-  //         ),
-  //         afterLineStyle: LineStyle(
-  //           color: Colors.blueGrey,
-  //         ),
-  //         startChild: SizedBox(width: 30),
-  //         endChild: Container(
-  //           padding: EdgeInsets.all(8.0),
-  //           color: Colors.grey[300],
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Text("Delivered"),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
+  void _scanQR() {
+    // Add code for QR code scanning
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.red,
+          title: Center(child: Text('Scan QR')),
+        ),
+        body: Center(
+          child: SizedBox(
+            // width: MediaQuery.of(context).size.width *     0.8, // Adjust width as needed
+            // height: MediaQuery.of(context).size.width * 1.2,
+            child: QRView(
+              key: qrKey,
+              onQRViewCreated: _onQRViewCreated,
+              overlay: QrScannerOverlayShape(
+                borderColor: Colors.red,
+                borderRadius: 10,
+                borderLength: 30,
+                borderWidth: 10,
+                cutOutSize: MediaQuery.of(context).size.width * 0.8,
+              ),
+            ),
+          ),
+        ),
+      );
+    }));
+  }
+
+  void _onQRViewCreated(QRViewController controller) {
+    qrController = controller;
+    controller.scannedDataStream.listen((scanData) {
+      _handleScannedData(scanData.code.toString());
+    });
+  }
+
+  void _handleScannedData(String scannedData) {
+    _updateStatus('Delivered');
+    qrController.stopCamera();
+    Navigator.of(context).pop();
+  }
 
   void _updateStatus(String currentStatus) async {
     String nextStatus = _getNextStatus(currentStatus);
