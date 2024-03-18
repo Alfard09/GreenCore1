@@ -235,10 +235,23 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
     });
   }
 
+  // void _handleScannedData(String scannedData) {
+  //   _updateStatus('Delivered');
+  //   qrController.stopCamera();
+  //   Navigator.of(context).pop();
+  // }
   void _handleScannedData(String scannedData) {
-    _updateStatus('Delivered');
-    qrController.stopCamera();
-    Navigator.of(context).pop();
+    // Check if the scanned data matches the expected information (e.g., order ID)
+    if (scannedData == widget.orderId) {
+      _updateStatus('Delivered');
+      qrController.stopCamera();
+      Navigator.of(context).pop();
+    } else {
+      // Show an error message if the scanned data does not match
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Invalid QR code")),
+      );
+    }
   }
 
   void _updateStatus(String currentStatus) async {

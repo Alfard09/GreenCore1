@@ -69,6 +69,7 @@ dependencies:
   order_tracker: ^0.0.2
   order_tracker_zen: ^1.0.0+4
   timeline_tile: ^2.0.0
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_driver:

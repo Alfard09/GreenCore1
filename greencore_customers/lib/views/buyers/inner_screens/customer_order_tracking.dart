@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:greencore_1/views/buyers/inner_screens/qrcode_screen.dart';
 import 'package:open_file/open_file.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class OrderTrackingCustomer extends StatefulWidget {
   final String orderId;
@@ -63,6 +65,8 @@ class _OrderTrackingCustomerState extends State<OrderTrackingCustomer> {
                   Divider(),
                   invoiceReport(data),
                   Divider(),
+                  generateQRCode(data['orderId']),
+                  Divider(),
                 ],
               ),
             );
@@ -76,6 +80,43 @@ class _OrderTrackingCustomerState extends State<OrderTrackingCustomer> {
     );
   }
 
+  Widget generateQRCode(String orderId) {
+    return InkWell(
+      onTap: () {
+        // Navigate to the QR code screen
+        _navigateToQRCodeScreen(orderId);
+      },
+      child: Row(
+        children: [
+          Icon(
+            Icons.qr_code,
+            color: Colors.green,
+          ),
+          SizedBox(width: 5),
+          Text(
+            ' QR Code',
+            style: TextStyle(fontSize: 14),
+          ),
+          Spacer(),
+          Icon(
+            Icons.arrow_drop_down,
+            color: Colors.green,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _navigateToQRCodeScreen(String orderId) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => QRCodeScreen(orderId: orderId),
+      ),
+    );
+  }
+
+  //invoice report
   Widget invoiceReport(Map<String, dynamic> data) {
     return InkWell(
       onTap: () {

@@ -124,6 +124,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             item.quantity, //to see the selected quantity in the cart
         'productSize': item.productSize,
         'scheduleDate': item.scheduleDate,
+        'status': 'Order Placed',
         'orderDate': DateTime.now(),
         'accepted': false,
         'totalPrice': item.price * item.quantity,
