@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.refresh),
+            icon: Icon(Icons.refresh, color: Colors.white),
             onPressed: () {
               setState(() {
                 _ordersStream =
@@ -41,6 +41,50 @@ class _HomePageState extends State<HomePage> {
             },
           ),
         ],
+        leading: Builder(builder: (BuildContext context) {
+          return IconButton(
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+            icon: Icon(Icons.menu, color: Colors.white),
+          );
+        }),
+      ),
+      drawer: Padding(
+        padding: const EdgeInsets.only(
+          left: 0,
+          top: 104,
+          right: 150,
+        ),
+        child: Drawer(
+          backgroundColor: Colors.white70,
+          child: ListView(
+            padding: EdgeInsets.all(10),
+            children: [
+              ListTile(
+                title: Text(
+                  'Menu',
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+                ),
+              ),
+              Divider(
+                thickness: 2,
+                color: const Color.fromARGB(202, 244, 67, 54),
+              ),
+              ListTile(
+                title: Text(
+                  'Logout',
+                  style: TextStyle(color: Colors.redAccent),
+                ),
+                onTap: () async {
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          ),
+        ),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _ordersStream,
@@ -61,15 +105,15 @@ class _HomePageState extends State<HomePage> {
                 document.data() as Map<String, dynamic>?;
 
             if (data != null) {
-              print('Document ID: ${document.id}');
-              print('Document data: $data');
+              // print('Document ID: ${document.id}');
+              //print('Document data: $data');
 
               dynamic status = data['status'];
               String statusLowercase = status
                   .toString()
                   .toLowerCase(); // Convert status to lowercase
 
-              print('Status: $statusLowercase'); // Print status for debugging
+              //print('Status: $statusLowercase'); // Print status for debugging
 
               if (statusLowercase == 'order placed') {
                 // Check lowercase status
