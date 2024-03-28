@@ -42,7 +42,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     _cartProvider = Provider.of<CartProvider>(context, listen: false);
     users = FirebaseFirestore.instance.collection('buyers');
     vendors = FirebaseFirestore.instance.collection('vendors');
-
+    //razor pay
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handdlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handdlePaymentSuccess);
@@ -74,20 +74,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     //External wallet logic
     EasyLoading.showError('Payment Failed. Please try again.');
   }
+//end here razor pay
 
-  // void _updateProductQuantityInOrdersCollection() {
-  //   _cartProvider.getCartItem.forEach((key, item) {
-  //     final orderId = Uuid().v4();
-  //     FirebaseFirestore.instance.collection('orders').doc(orderId).set({
-  //       // Existing order data...
-  //       'selectedQuantity': item.quantity,
-  //       // Update product quantity by subtracting selected quantity
-  //       'quantity': item.productQuantity - item.quantity,
-  //       // Other fields...
-  //     });
-  //   });
-  // }
-
+//firebase
   void _updateProductQuantityInProductsCollection() {
     _cartProvider.getCartItem.forEach((key, item) {
       FirebaseFirestore.instance
@@ -361,42 +350,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               // Payment already complete, place order
                               _placeOrder();
                             }
-
-                            // EasyLoading.show(status: 'Placing Order');
-                            // //to place order
-                            // _cartProvider.getCartItem.forEach((key, item) {
-                            //   final orderId = Uuid().v4();
-                            //   _firestore.collection('orders').doc(orderId).set({
-                            //     'orderId': orderId,
-                            //     'vendorId': item.vendorId,
-                            //     'email': data['email'],
-                            //     'phone': data['phoneNumber'],
-                            //     'address': data['address'],
-                            //     'buyerId': data['buyerId'],
-                            //     'fullName': data['fullName'],
-                            //     'buyerPhoto': data['profileImage'],
-                            //     'productName': item.productName,
-                            //     'productPrice': item.price,
-                            //     'productId': item.productId,
-                            //     'productImage': item.imageUrl,
-                            //     'quantity': item.productQuantity,
-                            //     'selectedQuantity': item
-                            //         .quantity, //to see the selected quantity in the cart
-                            //     'productSize': item.productSize,
-                            //     'scheduleDate': item.scheduleDate,
-                            //     'orderDate': DateTime.now(),
-                            //     'accepted': false,
-                            //   }).whenComplete(() {
-                            //     setState(() {
-                            //       _cartProvider.getCartItem.clear();
-                            //     });
-                            //     EasyLoading.dismiss();
-                            //     Navigator.pushReplacement(context,
-                            //         MaterialPageRoute(builder: (context) {
-                            //       return MainScreen();
-                            //     }));
-                            //   });
-                            // });
                           },
                           child: Container(
                             height: 50,
@@ -467,8 +420,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       },
     );
   }
-//funct1
 
+//funct1
+  //razore pay initializations
   void _initiateRazorpayPayment(Map<String, dynamic> userData) {
     EasyLoading.show(status: 'Initiating Payment');
 
