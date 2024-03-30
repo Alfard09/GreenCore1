@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:greencore_1/views/buyers/inner_screens/qrcode_screen.dart';
+import 'package:greencore_1/views/buyers/inner_screens/reviewrating.dart';
 import 'package:open_file/open_file.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:pdf/pdf.dart';
@@ -54,20 +55,36 @@ class _OrderTrackingCustomerState extends State<OrderTrackingCustomer> {
             String currentStatus = data['status'] ?? "Order Placed";
             return Padding(
               padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  topDetails(data),
-                  Divider(),
-                  buildTimeline(currentStatus),
-                  Divider(),
-                  otherData(data),
-                  Divider(),
-                  invoiceReport(data),
-                  Divider(),
-                  generateQRCode(data['orderId']),
-                  Divider(),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    topDetails(data),
+                    Divider(),
+                    buildTimeline(currentStatus),
+                    Divider(),
+                    otherData(data),
+                    Divider(),
+                    if (currentStatus == "Delivered")
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return ReviewRatingPage(
+                              orderId: widget.orderId,
+                              productId: data['productId'],
+                            );
+                          }));
+                        },
+                        child: Text('Leave Review & Rating'),
+                      ),
+                    Divider(),
+                    invoiceReport(data),
+                    Divider(),
+                    generateQRCode(data['orderId']),
+                    Divider(),
+                  ],
+                ),
               ),
             );
           } else if (snapshot.hasError) {

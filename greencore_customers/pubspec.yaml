@@ -70,6 +70,8 @@ dependencies:
   order_tracker_zen: ^1.0.0+4
   timeline_tile: ^2.0.0
   qr_flutter: ^4.1.0
+  flutter_rating_bar: ^4.0.1
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_driver:
@@ -78,6 +80,12 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  image_path: "assets/images/applogo.png"
+
+  # assets\images\applogo.png
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
