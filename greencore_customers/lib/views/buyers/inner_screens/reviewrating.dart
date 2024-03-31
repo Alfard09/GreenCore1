@@ -348,24 +348,30 @@ class _ReviewRatingPageState extends State<ReviewRatingPage> {
     // Validate if review text is not empty
     if (reviewText.isNotEmpty) {
       // Upload images to Firebase Storage
-      List<String> imageUrls = await _uploadImages();
+      List<String>? imageUrls = await _uploadImages();
 
       // Add review to Firestore
+      Map<String, dynamic> reviewData = {
+        'orderId': widget.orderId,
+        'rating': _rating,
+        'review': reviewText,
+        'timestamp': FieldValue.serverTimestamp(),
+      };
+
+      // Set imageUrls field to null if imageUrls is null
+      if (imageUrls == null) {
+        reviewData['imageUrls'] = null;
+      } else {
+        reviewData['imageUrls'] = imageUrls;
+      }
+
       FirebaseFirestore.instance
           .collection('products')
           .doc(widget.productId)
           .collection('reviews')
-          .add({
-        'orderId': widget.orderId,
-        'rating': _rating,
-        'review': reviewText,
-        'imageUrls': imageUrls,
-        'timestamp': FieldValue.serverTimestamp(),
-      }).then((_) {
+          .add(reviewData)
+          .then((_) {
         // Show success message and navigate back
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //   content: Text('Review submitted successfully!'),
-        // ));
         showSnack(context, "Review submitted successfully!");
         Navigator.pop(context);
       }).catchError((error) {
@@ -381,6 +387,47 @@ class _ReviewRatingPageState extends State<ReviewRatingPage> {
       ));
     }
   }
+
+  // void _submitReview() async {
+  //   // Get review text from text controller
+  //   String reviewText = _reviewController.text.trim();
+
+  //   // Validate if review text is not empty
+  //   if (reviewText.isNotEmpty) {
+  //     // Upload images to Firebase Storage
+  //     List<String> imageUrls = await _uploadImages();
+
+  //     // Add review to Firestore
+  //     FirebaseFirestore.instance
+  //         .collection('products')
+  //         .doc(widget.productId)
+  //         .collection('reviews')
+  //         .add({
+  //       'orderId': widget.orderId,
+  //       'rating': _rating,
+  //       'review': reviewText,
+  //       'imageUrls': imageUrls,
+  //       'timestamp': FieldValue.serverTimestamp(),
+  //     }).then((_) {
+  //       // Show success message and navigate back
+  //       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       //   content: Text('Review submitted successfully!'),
+  //       // ));
+  //       showSnack(context, "Review submitted successfully!");
+  //       Navigator.pop(context);
+  //     }).catchError((error) {
+  //       // Show error message if submission fails
+  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //         content: Text('Failed to submit review. Please try again.'),
+  //       ));
+  //     });
+  //   } else {
+  //     // Show error message if review text is empty
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Text('Please write your review before submitting.'),
+  //     ));
+  //   }
+  // }
 
   Future<List<String>> _uploadImages() async {
     List<String> imageUrls = [];
