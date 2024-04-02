@@ -128,6 +128,7 @@ class CartScreen extends StatelessWidget {
                                               Expanded(
                                                 child: Center(
                                                   child: IconButton(
+                                                    key: Key('decrementKey'),
                                                     onPressed:
                                                         cartData.quantity == 1
                                                             ? null
@@ -164,6 +165,7 @@ class CartScreen extends StatelessWidget {
                                               Expanded(
                                                 child: Center(
                                                   child: IconButton(
+                                                    key: Key('incrementKey'),
                                                     onPressed: cartData
                                                                 .productQuantity <= //it was ==
                                                             cartData.quantity
@@ -296,6 +298,7 @@ class CartScreen extends StatelessWidget {
           ? Padding(
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
+                key: Key('button_to_checkout'),
                 onTap: _cartProvider.totalPrice == 0.00
                     ? null
                     : () {

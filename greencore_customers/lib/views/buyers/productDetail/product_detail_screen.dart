@@ -913,6 +913,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               _cartProvider.getCartItem
                       .containsKey(widget.productData['productId'])
                   ? InkWell(
+                      key: Key('In_cart_button'),
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {

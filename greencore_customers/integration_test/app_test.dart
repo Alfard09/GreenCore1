@@ -119,6 +119,38 @@ void main() {
       await tester.pumpAndSettle(Duration(seconds: 3));
 //ends here
 //testing part 4 -- checking the cart
+      //going to cart
+      final incartbutton = find.byKey(Key('In_cart_button'));
+      expect(addToCartButton, findsOneWidget);
+      await tester.tap(incartbutton);
+      await tester.pumpAndSettle(Duration(seconds: 2));
+
+      //cart functionality checking
+      final incrementCart = find.byKey(Key('incrementKey'));
+      expect(incrementCart, findsOneWidget);
+
+      //tap action
+      await tester.pumpAndSettle();
+      await tester.tap(incrementCart);
+      //tap 2nd time
+      await tester.tap(incrementCart);
+      await tester.pumpAndSettle(Duration(seconds: 3));
+
+      //cart decrement
+      final decrementCart = find.byKey(Key('decrementKey'));
+      expect(decrementCart, findsOneWidget);
+
+      await tester.pumpAndSettle();
+      await tester.tap(decrementCart);
+      await tester.pumpAndSettle(Duration(seconds: 3));
+
+      //button to checkout
+      final checkoutButton = find.byKey(Key('button_to_checkout'));
+      expect(checkoutButton, findsOneWidget);
+
+      await tester.pumpAndSettle();
+      await tester.tap(checkoutButton);
+      await tester.pumpAndSettle(Duration(seconds: 3));
     });
   });
 }
