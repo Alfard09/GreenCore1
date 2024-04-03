@@ -5,6 +5,7 @@ import 'package:greencore_1/views/buyers/nav_screens/account_screen.dart';
 import 'package:greencore_1/views/buyers/nav_screens/cart_screen.dart';
 import 'package:greencore_1/views/buyers/nav_screens/category_screen.dart';
 import 'package:greencore_1/views/buyers/nav_screens/home_screen.dart';
+import 'package:greencore_1/views/buyers/nav_screens/plantlist_screen.dart';
 import 'package:greencore_1/views/buyers/nav_screens/search_screen.dart';
 import 'package:greencore_1/views/buyers/nav_screens/store_screen.dart';
 
@@ -21,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> _page = [
     HomeScreen(),
     CategoryScreen(),
-    StoreScreen(),
+    PlantListView(),
     //SearchScreen(),
     CartScreen(),
     AccountScreen(),
@@ -71,11 +72,8 @@ class _MainScreenState extends State<MainScreen> {
                     label: 'CATEGORY',
                   ),
                   BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/icons/shop.svg',
-                      width: 20,
-                    ),
-                    label: 'STORE',
+                    icon: Icon(Icons.library_books),
+                    label: 'LIBRARY',
                   ),
                   // BottomNavigationBarItem(
                   //   icon: SvgPicture.asset(

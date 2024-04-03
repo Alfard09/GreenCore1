@@ -254,10 +254,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:path_provider/path_provider.dart';
-import 'package:open_file/open_file.dart';
+import 'package:pdf/pdf.dart'; //needed sdk
+import 'package:pdf/widgets.dart' as pw; //needed sdk
+import 'package:path_provider/path_provider.dart'; //needed sdk  // pdf: ^3.10.8   open_file: ^3.3.2
+
+import 'package:open_file/open_file.dart'; //needed sdks
 import 'package:intl/intl.dart';
 
 class OrdersReportPage extends StatefulWidget {
@@ -399,7 +400,8 @@ class _OrdersReportPageState extends State<OrdersReportPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _saveAsPdf(context),
+        onPressed: () => _saveAsPdf(
+            context), ///////////..................floating action button to call the function.......................///////
         child: Icon(Icons.save),
       ),
     );
@@ -436,6 +438,8 @@ class _OrdersReportPageState extends State<OrdersReportPage> {
     }).toList();
   }
 
+  ///////////.........................................///////
+  ///funciton for report generation
   Future<void> _saveAsPdf(BuildContext context) async {
     final pdf = pw.Document();
 
@@ -506,4 +510,6 @@ class _OrdersReportPageState extends State<OrdersReportPage> {
 
     OpenFile.open(file.path);
   }
+
+  ///////////..................ends here.......................///////
 }

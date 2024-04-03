@@ -41,10 +41,15 @@ dependencies:
   open_file: ^3.3.2
   qr_code_scanner: ^1.0.1
   firebase_ui_auth: ^1.12.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  image_path: "images/delivery2.jpg"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

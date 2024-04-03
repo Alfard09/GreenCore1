@@ -50,9 +50,12 @@ class CustomerOrderScreen extends StatelessWidget {
               ),
             );
           }
-
+          List<DocumentSnapshot> sortedDocs = snapshot.data!.docs.toList();
+          sortedDocs.sort((a, b) => b['orderDate'].compareTo(a['orderDate']));
           return ListView(
-            children: snapshot.data!.docs.map((DocumentSnapshot document) {
+            children: // snapshot.data!.docs.map((DocumentSnapshot document)
+                // Sort the list by orderDate
+                sortedDocs.map((DocumentSnapshot document) {
               return GestureDetector(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
